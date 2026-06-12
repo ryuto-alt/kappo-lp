@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>割烹 沙羅雙樹 — 京・東山 ｜ 一夜のしつらえ</title>
+<meta name="description" content="京都・東山の割烹 沙羅雙樹（さらそうじゅ）。旬の食材と静謐な個室で、記念日・接待・会食のハレの夜をしつらえます。夜のおまかせコース 22,000円より。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500&family=EB+Garamond:ital@1&family=Cormorant:wght@300;400&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sumi:       '#14110F',  // 濡羽墨 base 60
+          tan:        '#211C18',  // 炭墨 panel 30
+          tint:       '#A89A8B',  // 本文用ティントグレー（AA確保）
+          'tint-muted': '#8C7F72',// 装飾ラベル専用（旧tint）
+          bengara:    '#9E3B2E',  // 弁柄 accent 10（意匠用）
+          'bengara-text': '#C75A4A', // 朱・テキスト用（墨地でAA）
+          kin:        '#B6925C',  // 燻し金 hairline
+          kinari:     '#E8DECF',  // 生成り body text
+        },
+        fontFamily: {
+          mincho: ['"Zen Old Mincho"', 'serif'],
+          gothic: ['"Zen Kaku Gothic New"', 'sans-serif'],
+          garamond: ['"EB Garamond"', 'serif'],
+          cormorant: ['"Cormorant"', 'serif'],
+        },
+        borderRadius: { card: '2px', btn: '0px' },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    /* ===== Design Tokens ===== */
+    --color-sumi:        #14110F;
+    --color-tan:         #211C18;
+    --color-tint:        #A89A8B;  /* 本文用（tan地5.6:1 / sumi地6.3:1） */
+    --color-tint-muted:  #8C7F72;  /* 装飾ラベル専用 */
+    --color-bengara:     #9E3B2E;  /* 意匠（罫線・グロー） */
+    --color-bengara-text:#C75A4A;  /* 朱テキスト用（墨地4.6:1） */
+    --color-kin:         #B6925C;
+    --color-kinari:      #E8DECF;
+
+    --font-display: "Zen Old Mincho", serif;
+    --font-body:    "Zen Kaku Gothic New", sans-serif;
+    --font-latin:   "EB Garamond", serif;
+    --font-num:     "Cormorant", serif;
+
+    /* 4 / 8 spacing scale */
+    --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+    --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+    --space-24: 96px; --space-32: 128px; --space-40: 160px;
+
+    --radius-card: 2px;
+    --hairline: 1px solid rgba(182,146,92,0.28);
+  }
+
+  * { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--color-sumi);
+    color: var(--color-kinari);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.72;
+    overflow-x: hidden;
+  }
+
+  /* 本文長文ブロックの行送りを統一 */
+  .lede { line-height: 1.78; }
+
+  ::selection { background: rgba(158,59,46,0.4); color: var(--color-kinari); }
+
+  .font-feat { font-feature-settings: "palt" 1; }
+
+  .display { font-family: var(--font-display); font-feature-settings: "palt" 1; }
+
+  /* vertical smoked-gold hairline — 舞台の幕 */
+  .stage-rule {
+    position: absolute; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(to bottom,
+      transparent, rgba(182,146,92,0.0) 4%,
+      rgba(182,146,92,0.32) 22%, rgba(182,146,92,0.32) 78%,
+      rgba(182,146,92,0.0) 96%, transparent);
+    pointer-events: none;
+  }
+
+  /* spotlight that "lights up" a dish from the dark */
+  .spotlight {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 50% 38%,
+        rgba(232,222,207,0.10) 0%,
+        rgba(182,146,92,0.06) 26%,
+        rgba(33,28,24,0.7) 58%,
+        var(--color-sumi) 100%),
+      var(--color-tan);
+    border: 1px solid rgba(182,146,92,0.14);
+  }
+  .spotlight::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 42% at 50% 36%, rgba(232,222,207,0.14), transparent 70%),
+      linear-gradient(to bottom, rgba(20,17,15,0) 58%, rgba(20,17,15,0.55) 100%);
+  }
+  /* spotlight label chip — photo差し替え時もそのまま機能 */
+  .spotlight > span {
+    position: absolute; z-index: 2;
+  }
+
+  /* abstract plated-dish ornament */
+  .plate {
+    position: absolute; left: 50%; top: 40%;
+    transform: translate(-50%, -50%);
+    width: 62%; aspect-ratio: 1;
+  }
+
+  /* ambient grain */
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.04; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* fade-in on scroll */
+  .reveal {
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 900ms cubic-bezier(.2,.6,.2,1), transform 900ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+    .ambient-fade { animation: none !important; }
+  }
+
+  /* hero ambient slow breathing glow */
+  @keyframes breathe {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 0.9; transform: scale(1.06); }
+  }
+  .ambient-fade { animation: breathe 14s ease-in-out infinite; }
+
+  a, button { transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, opacity 200ms ease; }
+
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: ""; position: absolute; left: 0; bottom: -3px; height: 1px; width: 100%;
+    background: var(--color-kin); transform: scaleX(0); transform-origin: left;
+    transition: transform 280ms ease;
+  }
+  .link-underline:hover::after, .link-underline:focus-visible::after { transform: scaleX(1); }
+
+  :focus-visible { outline: 2px solid var(--color-kin); outline-offset: 3px; border-radius: 1px; }
+
+  .btn-bengara {
+    background: #B04434;
+    color: #F4EEE2;
+    border: 1px solid rgba(244,238,226,0.16);
+    border-radius: 0;
+    font-weight: 500;
+    min-height: 44px;
+  }
+  .btn-bengara:hover, .btn-bengara:focus-visible { background: #9E3B2E; }
+
+  .btn-ghost {
+    border: 1px solid rgba(182,146,92,0.45);
+    color: var(--color-kinari);
+    border-radius: 0;
+    min-height: 44px;
+  }
+  .btn-ghost:hover, .btn-ghost:focus-visible { border-color: var(--color-kin); background: rgba(182,146,92,0.08); }
+
+  /* vertical writing accent */
+  .tate { writing-mode: vertical-rl; text-orientation: upright; }
+
+  .num {
+    font-family: var(--font-num);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    font-feature-settings: 'tnum' 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .num .yen { margin-right: 0.12em; }
+
+  /* sticky reserve bar */
+  #reserveBar {
+    transform: translateY(110%);
+    transition: transform 420ms cubic-bezier(.2,.7,.2,1);
+    box-shadow: 0 -1px 0 rgba(182,146,92,0.35), 0 -18px 40px rgba(0,0,0,0.55);
+  }
+  #reserveBar.show { transform: translateY(0); }
+
+  .panel { background: var(--color-tan); border: 1px solid rgba(182,146,92,0.12); }
+
+  .label-en { font-family: var(--font-latin); font-style: italic; color: var(--color-kin); letter-spacing: 0.04em; }
+
+  /* 注記・コピーライト用の不透明明色（AA確保） */
+  .text-note { color: #9A8C7D; }
+
+  /* H2 共通モジュラースケール */
+  .h2-scale { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 500; }
+
+  /* ===== 予約フォーム ===== */
+  .field-label { color: var(--color-kinari); font-size: 0.84rem; letter-spacing: 0.06em; }
+  .form-control {
+    width: 100%;
+    background: var(--color-sumi);
+    border: 1px solid rgba(182,146,92,0.30);
+    color: var(--color-kinari);
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: 0.98rem;
+    padding: 0.7rem 0.9rem;
+    min-height: 48px;
+    border-radius: 0;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .form-control::placeholder { color: #8C7F72; }
+  .form-control:hover { border-color: rgba(182,146,92,0.55); }
+  .form-control:focus-visible,
+  .form-control:focus { outline: none; border-color: var(--color-kin); box-shadow: 0 0 0 2px rgba(182,146,92,0.22); }
+  select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23B6925C' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    padding-right: 2.4rem;
+  }
+  textarea.form-control { min-height: 96px; resize: vertical; line-height: 1.7; }
+
+  /* radio cards */
+  .radio-card { position: relative; cursor: pointer; }
+  .radio-card input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .radio-face {
+    border: 1px solid rgba(182,146,92,0.30);
+    padding: 0.9rem 1rem;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
+    transition: border-color 200ms ease, background-color 200ms ease;
+  }
+  .radio-card:hover .radio-face { border-color: rgba(182,146,92,0.55); }
+  .radio-card input:focus-visible + .radio-face { outline: 2px solid var(--color-kin); outline-offset: 2px; }
+  .radio-card input:checked + .radio-face {
+    border-color: var(--color-kin);
+    background: radial-gradient(120% 100% at 80% 0%, rgba(158,59,46,0.12), transparent 60%), rgba(182,146,92,0.06);
+  }
+
+  /* stepper */
+  .stepper { display: inline-flex; align-items: stretch; border: 1px solid rgba(182,146,92,0.30); }
+  .stepper button {
+    width: 48px; min-height: 48px; display: grid; place-items: center;
+    color: var(--color-kinari); background: var(--color-sumi);
+  }
+  .stepper button:hover, .stepper button:focus-visible { background: rgba(182,146,92,0.10); color: var(--color-kin); }
+  .stepper output {
+    min-width: 56px; display: grid; place-items: center;
+    font-family: var(--font-num); font-weight: 400; font-size: 1.2rem;
+    font-variant-numeric: tabular-nums; color: var(--color-kinari);
+    border-left: 1px solid rgba(182,146,92,0.30); border-right: 1px solid rgba(182,146,92,0.30);
+  }
+
+  .tap44 { min-height: 44px; display: inline-flex; align-items: center; }
+</style>
+</head>
+<body class="font-feat">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-4 focus:left-4 focus:bg-tan focus:text-kinari focus:px-4 focus:py-2">本文へスキップ</a>
+
+<!-- ============ HEADER ============ -->
+<header class="fixed top-0 inset-x-0 z-40">
+  <div id="topbar" class="transition-all duration-300 border-b border-transparent">
+    <nav class="max-w-[1280px] mx-auto px-5 md:px-10 h-[68px] flex items-center justify-between" aria-label="メインナビゲーション">
+      <a href="#hero" class="flex items-baseline gap-2 group">
+        <span class="display text-kinari text-[1.4rem] tracking-[0.12em] leading-none">沙羅雙樹</span>
+        <span class="label-en text-[0.7rem] hidden sm:inline">Sarasōju</span>
+      </a>
+      <ul class="hidden lg:flex items-center gap-9 text-[0.86rem] text-tint tracking-[0.06em]">
+        <li><a href="#concept" class="link-underline hover:text-kinari">志</a></li>
+        <li><a href="#course" class="link-underline hover:text-kinari">献立</a></li>
+        <li><a href="#shun" class="link-underline hover:text-kinari">旬の一品</a></li>
+        <li><a href="#room" class="link-underline hover:text-kinari">設え</a></li>
+        <li><a href="#access" class="link-underline hover:text-kinari">店案内</a></li>
+      </ul>
+      <div class="flex items-center gap-2.5 md:gap-3">
+        <a href="tel:0757710000" class="hidden md:inline-flex items-center min-h-[44px] text-tint text-[0.8rem] tracking-[0.08em] link-underline hover:text-kinari">075-771-0000</a>
+        <a href="#reserve" class="btn-bengara inline-flex items-center justify-center text-[0.78rem] md:text-[0.82rem] tracking-[0.1em] px-4 md:px-5 py-3">ご予約</a>
+        <button id="menuToggle" class="lg:hidden w-11 h-11 grid place-items-center text-kinari" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileMenu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobileMenu" role="dialog" aria-modal="true" aria-label="ナビゲーション" class="lg:hidden fixed inset-0 z-50 bg-sumi/97 backdrop-blur-sm hidden flex-col">
+    <div class="flex items-center justify-between h-[68px] px-5 border-b border-kin/20">
+      <span class="display text-kinari text-[1.4rem] tracking-[0.12em]">沙羅雙樹</span>
+      <button id="menuClose" class="w-11 h-11 grid place-items-center text-kinari" aria-label="メニューを閉じる">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <ul class="flex flex-col gap-1 px-7 pt-8 text-2xl display tracking-[0.1em]">
+      <li><a href="#concept" class="mobile-link block py-3 border-b border-tint/15">志 <span class="label-en text-sm align-middle ml-2">Concept</span></a></li>
+      <li><a href="#course" class="mobile-link block py-3 border-b border-tint/15">献立 <span class="label-en text-sm align-middle ml-2">Course</span></a></li>
+      <li><a href="#shun" class="mobile-link block py-3 border-b border-tint/15">旬の一品 <span class="label-en text-sm align-middle ml-2">Season</span></a></li>
+      <li><a href="#room" class="mobile-link block py-3 border-b border-tint/15">設え <span class="label-en text-sm align-middle ml-2">Rooms</span></a></li>
+      <li><a href="#access" class="mobile-link block py-3 border-b border-tint/15">店案内 <span class="label-en text-sm align-middle ml-2">Access</span></a></li>
+    </ul>
+    <div class="px-7 mt-auto pb-10 space-y-3">
+      <a href="#reserve" class="mobile-link btn-bengara block text-center py-4 tracking-[0.15em] text-[0.95rem]">ご予約・お問い合わせ</a>
+      <a href="tel:0757710000" class="block text-center text-tint tracking-[0.1em] num text-xl tap44 justify-center">075-771-0000</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative min-h-[100svh] grain flex items-center overflow-hidden">
+  <!-- ambient radial spotlight -->
+  <div class="ambient-fade pointer-events-none absolute -z-10 left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 w-[120vw] md:w-[70vw] aspect-square"
+       style="background: radial-gradient(circle at center, rgba(182,146,92,0.16) 0%, rgba(158,59,46,0.07) 32%, transparent 62%);"></div>
+  <div class="pointer-events-none absolute inset-0 -z-10"
+       style="background: radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.0), rgba(0,0,0,0.55));"></div>
+
+  <!-- vertical stage rules -->
+  <div class="stage-rule hidden md:block" style="left: 16%;"></div>
+  <div class="stage-rule hidden md:block" style="right: 16%;"></div>
+
+  <div class="max-w-[1280px] mx-auto w-full px-5 md:px-10 pt-28 pb-24">
+    <div class="max-w-[60ch] md:max-w-none">
+      <p class="reveal label-en text-[0.95rem] md:text-[1.05rem] mb-6 flex items-center gap-3">
+        <span class="inline-block w-8 h-px bg-bengara"></span>
+        Kappo Sarasōju ・ Kyoto Higashiyama
+      </p>
+      <h1 class="reveal display text-kinari leading-[1.18] tracking-[0.08em]"
+          style="font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 500;">
+        夜の帳が下りるころ、<br class="hidden sm:block" />
+        <span class="text-kin">一椀</span>が灯る。
+      </h1>
+      <p class="reveal lede mt-8 text-kinari/90 text-[1.02rem] md:text-[1.12rem] max-w-[40ch]">
+        東山の路地裏、八席の白木のカウンター。<br />
+        旬を一皿に閉じ込め、静かに供する一夜。<br />
+        記念日に、会食に、もてなしの席に。
+      </p>
+      <div class="reveal mt-12 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+        <a href="#reserve" class="btn-bengara px-8 py-4 text-center tracking-[0.14em] text-[0.95rem] inline-flex items-center justify-center gap-2">
+          ご予約・お問い合わせ
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#course" class="btn-ghost px-8 py-4 text-center tracking-[0.14em] text-[0.95rem]">献立を見る</a>
+        <a href="#access" class="tap44 justify-center sm:justify-start text-tint text-[0.9rem] tracking-[0.08em] link-underline hover:text-kinari">店へのご案内</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-tint reveal">
+    <span class="tate text-[0.66rem] tracking-[0.3em]">SCROLL</span>
+    <span class="w-px h-10 bg-gradient-to-b from-kin/60 to-transparent"></span>
+  </div>
+</section>
+
+<!-- ============ CONCEPT ============ -->
+<section id="concept" aria-labelledby="concept-h" class="relative py-[96px] md:py-[140px] overflow-hidden">
+  <div class="stage-rule hidden lg:block" style="left: 16%;"></div>
+  <div class="stage-rule hidden lg:block" style="left: 84%;"></div>
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div class="lg:col-span-5 reveal">
+        <p class="label-en text-[0.95rem] mb-5">Our Philosophy</p>
+        <h2 id="concept-h" class="display text-kinari leading-[1.3] tracking-[0.06em] mb-8 h2-scale">
+          引き算の、<br />もてなし。
+        </h2>
+        <div class="hidden lg:block">
+          <div class="panel rounded-card p-6 mt-10">
+            <p class="num text-kin text-[2.6rem] leading-none">19<span class="text-[1.4rem]">年</span></p>
+            <p class="text-tint text-[0.86rem] mt-3 leading-[1.78] tracking-[0.04em]">店主・岡野が京の老舗で研いた歳月。<br />二〇〇六年、この路地に暖簾を掲げました。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 reveal">
+        <p class="lede text-kinari text-[1.05rem] md:text-[1.16rem] tracking-[0.02em] max-w-[40ch]">
+          料理は、足すことより削ることのほうが難しい。出汁は利尻の昆布と本枯節を、その日の献立に合わせて引き直す。器は無地を好み、季節の色は皿の上だけに置く。
+        </p>
+        <p class="lede text-tint text-[1.0rem] md:text-[1.08rem] tracking-[0.02em] mt-7 max-w-[40ch]">
+          静けさは、贅沢の別名だと思っています。喧騒を遠ざけ、火の音と包丁の音だけが残る八席で、大切な方との時間がゆっくりと流れますように。声高に語らず、ただ一椀に込める——それが沙羅雙樹のもてなしです。
+        </p>
+
+        <div class="mt-12 flex items-center gap-5">
+          <svg width="52" height="52" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+            <path d="M40 8 C24 22 24 40 40 52 C56 40 56 22 40 8Z" stroke="#B6925C" stroke-width="1.2" opacity="0.7"/>
+            <path d="M40 30 C32 38 32 50 40 60 C48 50 48 38 40 30Z" stroke="#9E3B2E" stroke-width="1.2"/>
+            <line x1="40" y1="52" x2="40" y2="72" stroke="#B6925C" stroke-width="1.2" opacity="0.6"/>
+          </svg>
+          <div>
+            <p class="display text-kinari text-[1.1rem] tracking-[0.08em]">岡野 慎一</p>
+            <p class="text-note text-[0.82rem] tracking-[0.04em]">主人 ・ 板長　<span class="label-en text-[0.78rem]">Shinichi Okano</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATURE SPOTLIGHT (灯る演出) ============ -->
+<section aria-labelledby="spotlight-h" class="relative py-[80px] md:py-[120px] overflow-hidden">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+      <!-- spotlight dish -->
+      <div class="md:col-span-6 lg:col-span-5 reveal">
+        <div class="spotlight grain">
+          <!-- abstract plated dish in inline SVG -->
+          <svg class="plate" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+            <ellipse cx="100" cy="104" rx="92" ry="88" stroke="#B6925C" stroke-width="0.8" opacity="0.35"/>
+            <ellipse cx="100" cy="104" rx="70" ry="66" stroke="#B6925C" stroke-width="0.8" opacity="0.5"/>
+            <path d="M62 110 Q100 70 138 110 Q100 130 62 110Z" fill="#9E3B2E" opacity="0.55"/>
+            <path d="M70 104 Q100 80 130 104" stroke="#E8DECF" stroke-width="1" opacity="0.5"/>
+            <circle cx="100" cy="104" r="6" fill="#E8DECF" opacity="0.6"/>
+            <path d="M86 120 q14 14 28 0" stroke="#B6925C" stroke-width="1.2" opacity="0.7"/>
+            <circle cx="78" cy="92" r="2.2" fill="#B6925C" opacity="0.7"/>
+            <circle cx="124" cy="94" r="2.2" fill="#B6925C" opacity="0.7"/>
+          </svg>
+          <span class="absolute bottom-4 left-4 label-en text-[0.82rem]">先付 ・ Hassun</span>
+        </div>
+      </div>
+
+      <div class="md:col-span-6 lg:col-span-6 lg:col-start-7 reveal">
+        <p class="label-en text-[0.95rem] mb-5">A Theatre of Taste</p>
+        <h2 id="spotlight-h" class="display text-kinari leading-[1.32] tracking-[0.06em] mb-7 h2-scale">
+          暗がりに、<br />一皿だけが浮かぶ。
+        </h2>
+        <p class="lede text-tint text-[1.0rem] md:text-[1.08rem] max-w-[38ch]">
+          照明はカウンターの手元と、皿の上にだけ。料理が運ばれるたび、その一皿が舞台の主役のように灯ります。余白の闇が、味と香りを際立たせる——目で愉しみ、舌で味わう、一夜限りの献立です。
+        </p>
+        <ul class="mt-9 space-y-4 text-[0.94rem]">
+          <li class="flex items-start gap-3 text-kinari">
+            <svg class="mt-1 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-2.8L7 19l1-6-4-4 5.5-.5z"/></svg>
+            その日仕入れた魚と野菜だけで組む、献立は毎日変わります
+          </li>
+          <li class="flex items-start gap-3 text-kinari">
+            <svg class="mt-1 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h7l2-4 3 8 2-4h4"/></svg>
+            利尻昆布と本枯節の一番出汁を、椀ごとに引き直し
+          </li>
+          <li class="flex items-start gap-3 text-kinari">
+            <svg class="mt-1 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            アレルギー・苦手食材は前日までにご相談を承ります
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSE (昼夜2軸) ============ -->
+<section id="course" aria-labelledby="course-h" class="relative py-[96px] md:py-[140px] overflow-hidden">
+  <div class="max-w-[1180px] mx-auto px-5 md:px-10">
+    <div class="text-center mb-16 reveal">
+      <p class="label-en text-[0.95rem] mb-4">Omakase Course</p>
+      <h2 id="course-h" class="display text-kinari leading-[1.25] tracking-[0.07em] h2-scale">献立</h2>
+      <p class="text-tint mt-5 text-[0.95rem] tracking-[0.03em] max-w-[34ch] mx-auto">
+        おまかせのコースのみ。昼と夜で趣を変えてお供します。
+      </p>
+    </div>
+
+    <div class="relative grid md:grid-cols-2 gap-px panel rounded-card overflow-hidden">
+      <!-- vertical center rule -->
+      <div class="stage-rule hidden md:block" style="left: 50%; opacity: 0.9;"></div>
+
+      <!-- 昼 -->
+      <div class="reveal p-8 md:p-12 lg:p-14">
+        <div class="flex items-baseline justify-between mb-2">
+          <span class="label-en text-[1rem]">Luncheon</span>
+          <span class="tate display text-tint-muted text-sm tracking-[0.4em] hidden md:inline" aria-hidden="true">昼</span>
+        </div>
+        <h3 class="display text-kinari text-[1.7rem] tracking-[0.08em] mb-1">昼の献立 「水無月」</h3>
+        <p class="text-tint text-[0.84rem] mb-7">全六品 ・ 90分 ・ 木〜日 / 12:00, 13:30</p>
+        <p class="num text-kin text-[2.6rem] leading-none mb-8"><span class="yen">¥</span>8,800<span class="text-tint text-[0.9rem] num ml-1.5">(税サ込)</span></p>
+
+        <ul class="space-y-3.5 text-[0.95rem] text-kinari/90">
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-tint/12"><span>先付</span><span class="text-tint text-[0.86rem]">賀茂茄子の翡翠煮</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-tint/12"><span>椀物</span><span class="text-tint text-[0.86rem]">鱧と冬瓜の葛仕立て</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-tint/12"><span>向付</span><span class="text-tint text-[0.86rem]">明石鯛 ・ 鮪中とろ</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-tint/12"><span>焼物</span><span class="text-tint text-[0.86rem]">鮎の塩焼き 蓼酢</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-tint/12"><span>食事</span><span class="text-tint text-[0.86rem]">じゃこと実山椒の土鍋飯</span></li>
+          <li class="flex justify-between gap-4"><span>水菓子</span><span class="text-tint text-[0.86rem]">本わらび餅</span></li>
+        </ul>
+      </div>
+
+      <!-- 夜 (主役) -->
+      <div class="reveal relative p-8 md:p-12 lg:p-14"
+           style="background: radial-gradient(120% 80% at 70% 0%, rgba(158,59,46,0.10), transparent 60%), var(--color-tan);">
+        <div class="flex items-baseline justify-between mb-2">
+          <span class="label-en text-[1rem]">Dinner ・ Signature</span>
+          <span class="tate display text-bengara-text text-sm tracking-[0.4em] hidden md:inline" aria-hidden="true">夜</span>
+        </div>
+        <h3 class="display text-kinari text-[1.7rem] tracking-[0.08em] mb-1">夜のおまかせ 「宵」</h3>
+        <p class="text-tint text-[0.84rem] mb-7">全十品 ・ 約150分 ・ 月・火・木・金・土 / 18:00 一斉</p>
+        <p class="num text-kin text-[2.6rem] leading-none mb-8"><span class="yen">¥</span>22,000<span class="text-tint text-[0.9rem] num ml-1.5">(税サ込)</span></p>
+
+        <ul class="space-y-3.5 text-[0.95rem] text-kinari/90">
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>先付</span><span class="text-tint text-[0.86rem]">雲丹と順才の煮凝り</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>八寸</span><span class="text-tint text-[0.86rem]">夏の彩り 八種盛り</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>椀物</span><span class="text-tint text-[0.86rem]">鱧真薯 ・ 梅肉添え</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>造里</span><span class="text-tint text-[0.86rem]">淡路鱧 ・ 由良雲丹</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>焼物</span><span class="text-tint text-[0.86rem]">琵琶湖天然鰻 白焼</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>強肴</span><span class="text-tint text-[0.86rem]">近江牛炭火と賀茂葱</span></li>
+          <li class="flex justify-between gap-4 pb-3.5 border-b border-kin/15"><span>食事</span><span class="text-tint text-[0.86rem]">鮎ご飯 土鍋炊き</span></li>
+          <li class="flex justify-between gap-4"><span>甘味</span><span class="text-tint text-[0.86rem]">水羊羹と白桃</span></li>
+        </ul>
+
+        <p class="text-note text-[0.82rem] mt-8 leading-[1.78]">
+          ※ 献立は仕入れにより変わります。日本酒は二十種を月替りで。ペアリング（6種）<span class="num">+¥7,700</span>。
+        </p>
+      </div>
+    </div>
+
+    <p class="text-center text-note text-[0.84rem] mt-7 reveal">個室は別途、室料を申し受けます（夜・1室 <span class="num">¥5,500</span>〜）。お子様のご同伴は中学生以上より承ります。</p>
+  </div>
+</section>
+
+<!-- ============ SHUN 旬の一品 ============ -->
+<section id="shun" aria-labelledby="shun-h" class="relative py-[96px] md:py-[140px] overflow-hidden">
+  <div class="stage-rule hidden lg:block" style="left: 16%;"></div>
+  <div class="stage-rule hidden lg:block" style="left: 84%;"></div>
+
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 reveal">
+      <div>
+        <p class="label-en text-[0.95rem] mb-4">Seasonal Selections ・ Early Summer</p>
+        <h2 id="shun-h" class="display text-kinari leading-[1.25] tracking-[0.07em] h2-scale">初夏の、旬</h2>
+      </div>
+      <p class="lede text-tint text-[0.92rem] max-w-[30ch]">
+        六月、京の食卓は鱧と鮎の季。走りの素材を、走りのうちに。
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      <!-- card 1 -->
+      <article class="reveal group" data-delay="0">
+        <div class="spotlight grain mb-5">
+          <svg class="plate" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+            <ellipse cx="100" cy="106" rx="84" ry="80" stroke="#B6925C" stroke-width="0.8" opacity="0.4"/>
+            <path d="M55 110 q45 -40 90 0" stroke="#E8DECF" stroke-width="1" opacity="0.45" fill="none"/>
+            <path d="M64 108 q36 24 72 0 q-36 -28 -72 0Z" fill="#9E3B2E" opacity="0.45"/>
+            <path d="M72 108 q28 -14 56 0" stroke="#E8DECF" stroke-width="0.8" opacity="0.6"/>
+            <circle cx="100" cy="84" r="3" fill="#B6925C" opacity="0.8"/>
+          </svg>
+          <span class="absolute bottom-4 left-4 label-en text-[0.8rem]">Hamo</span>
+        </div>
+        <p class="display text-kinari text-[1.25rem] tracking-[0.06em] mb-2">鱧 ・ 落とし</p>
+        <p class="lede text-tint text-[0.92rem] max-w-[38ch]">骨切りした淡路の鱧を、湯に通して梅肉で。京の夏を告げる、白い牡丹の一皿。</p>
+      </article>
+
+      <!-- card 2 -->
+      <article class="reveal group sm:mt-8 lg:mt-12" data-delay="110">
+        <div class="spotlight grain mb-5">
+          <svg class="plate" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+            <rect x="34" y="70" width="132" height="68" rx="4" stroke="#B6925C" stroke-width="0.8" opacity="0.4"/>
+            <path d="M48 104 q24 -18 50 0 q24 18 54 0" stroke="#9E3B2E" stroke-width="2.4" opacity="0.6" fill="none"/>
+            <path d="M52 110 q26 -10 48 0" stroke="#E8DECF" stroke-width="0.8" opacity="0.5"/>
+            <circle cx="60" cy="92" r="2" fill="#B6925C" opacity="0.8"/>
+            <circle cx="140" cy="116" r="2" fill="#B6925C" opacity="0.8"/>
+          </svg>
+          <span class="absolute bottom-4 left-4 label-en text-[0.8rem]">Ayu</span>
+        </div>
+        <p class="display text-kinari text-[1.25rem] tracking-[0.06em] mb-2">鮎 ・ 塩焼</p>
+        <p class="lede text-tint text-[0.92rem] max-w-[38ch]">琵琶湖の若鮎を炭火で踊らせ、蓼酢で。苦みと香りに、初夏の川面が薫ります。</p>
+      </article>
+
+      <!-- card 3 -->
+      <article class="reveal group lg:mt-24" data-delay="220">
+        <div class="spotlight grain mb-5">
+          <svg class="plate" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+            <ellipse cx="100" cy="104" rx="80" ry="76" stroke="#B6925C" stroke-width="0.8" opacity="0.4"/>
+            <circle cx="100" cy="104" r="30" fill="#9E3B2E" opacity="0.4"/>
+            <circle cx="100" cy="104" r="30" stroke="#E8DECF" stroke-width="0.8" opacity="0.5"/>
+            <path d="M88 104 a12 12 0 0 1 24 0" stroke="#B6925C" stroke-width="1.2" opacity="0.8"/>
+            <circle cx="100" cy="104" r="4" fill="#E8DECF" opacity="0.7"/>
+          </svg>
+          <span class="absolute bottom-4 left-4 label-en text-[0.8rem]">Uni</span>
+        </div>
+        <p class="display text-kinari text-[1.25rem] tracking-[0.06em] mb-2">由良雲丹 ・ 順才</p>
+        <p class="lede text-tint text-[0.92rem] max-w-[38ch]">由良の赤雲丹を、清涼な順才の煮凝りで包んで。喉を通る、ひと匙の涼。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROOM 設え (bento) ============ -->
+<section id="room" aria-labelledby="room-h" class="relative py-[96px] md:py-[140px] overflow-hidden">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="mb-16 reveal max-w-[44ch]">
+      <p class="label-en text-[0.95rem] mb-4">The Setting ・ Private Rooms</p>
+      <h2 id="room-h" class="display text-kinari leading-[1.25] tracking-[0.07em] mb-6 h2-scale">設え</h2>
+      <p class="lede text-tint text-[1.0rem]">
+        八席の白木のカウンターと、二つの茶室仕立ての個室。接待や顔合わせ、記念日の食事会に、人目を気にせずお過ごしいただけます。
+      </p>
+    </div>
+
+    <!-- bento grid: 間隔広め・非等幅 -->
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 md:gap-6 auto-rows-[180px] md:auto-rows-[200px]">
+      <!-- counter (large) -->
+      <article class="reveal col-span-2 lg:col-span-4 lg:row-span-2 relative panel rounded-card overflow-hidden grain group">
+        <div class="absolute inset-0"
+             style="background: radial-gradient(90% 130% at 50% 0%, rgba(182,146,92,0.12), transparent 55%), linear-gradient(180deg, #211C18, #14110F);"></div>
+        <!-- counter line illustration -->
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 600 400" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <line x1="40" y1="260" x2="560" y2="240" stroke="#B6925C" stroke-width="1.4" opacity="0.55"/>
+          <line x1="40" y1="278" x2="560" y2="258" stroke="#8C7F72" stroke-width="0.8" opacity="0.3"/>
+          <g opacity="0.5" stroke="#8C7F72" stroke-width="0.8">
+            <line x1="120" y1="252" x2="120" y2="330"/><line x1="220" y1="248" x2="220" y2="330"/>
+            <line x1="320" y1="246" x2="320" y2="330"/><line x1="420" y1="244" x2="420" y2="330"/>
+          </g>
+          <circle cx="170" cy="232" r="10" fill="#9E3B2E" opacity="0.5"/>
+          <circle cx="370" cy="226" r="10" fill="#9E3B2E" opacity="0.5"/>
+          <path d="M40 120 q260 -40 520 0" stroke="#B6925C" stroke-width="0.8" opacity="0.25"/>
+        </svg>
+        <div class="relative h-full flex flex-col justify-end p-6 md:p-8">
+          <span class="label-en text-[0.82rem] mb-1">Counter ・ 8 seats</span>
+          <h3 class="display text-kinari text-[1.4rem] md:text-[1.7rem] tracking-[0.06em]">白木のカウンター</h3>
+          <p class="text-tint text-[0.86rem] mt-1.5 leading-[1.78] max-w-[36ch] hidden md:block">主人の手元を眺めながら、出来たての一皿を。一名様から二名様のご来店に。</p>
+        </div>
+      </article>
+
+      <!-- private A -->
+      <article class="reveal col-span-1 lg:col-span-2 relative panel rounded-card overflow-hidden grain group">
+        <div class="absolute inset-0" style="background: radial-gradient(80% 100% at 50% 30%, rgba(158,59,46,0.10), transparent 60%), #211C18;"></div>
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 300 300" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect x="60" y="80" width="180" height="120" rx="2" stroke="#B6925C" stroke-width="0.8" opacity="0.4"/>
+          <line x1="150" y1="80" x2="150" y2="200" stroke="#8C7F72" stroke-width="0.6" opacity="0.4"/>
+          <line x1="60" y1="140" x2="240" y2="140" stroke="#8C7F72" stroke-width="0.6" opacity="0.4"/>
+          <circle cx="150" cy="230" r="16" stroke="#9E3B2E" stroke-width="1" opacity="0.6"/>
+        </svg>
+        <div class="relative h-full flex flex-col justify-end p-5">
+          <span class="label-en text-[0.78rem]">Room 一・松</span>
+          <h3 class="display text-kinari text-[1.2rem] tracking-[0.06em]">松の間 ・ 4名</h3>
+        </div>
+      </article>
+
+      <!-- private B -->
+      <article class="reveal col-span-1 lg:col-span-2 relative panel rounded-card overflow-hidden grain group">
+        <div class="absolute inset-0" style="background: radial-gradient(80% 100% at 50% 30%, rgba(182,146,92,0.10), transparent 60%), #211C18;"></div>
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 300 300" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path d="M70 120 q80 -50 160 0 l0 90 -160 0Z" stroke="#B6925C" stroke-width="0.8" opacity="0.4" fill="none"/>
+          <line x1="150" y1="92" x2="150" y2="210" stroke="#8C7F72" stroke-width="0.6" opacity="0.35"/>
+          <circle cx="110" cy="170" r="3" fill="#B6925C" opacity="0.7"/>
+          <circle cx="190" cy="170" r="3" fill="#B6925C" opacity="0.7"/>
+        </svg>
+        <div class="relative h-full flex flex-col justify-end p-5">
+          <span class="label-en text-[0.78rem]">Room 二・竹</span>
+          <h3 class="display text-kinari text-[1.2rem] tracking-[0.06em]">竹の間 ・ 6名</h3>
+        </div>
+      </article>
+
+      <!-- use-case strip -->
+      <article class="reveal col-span-2 lg:col-span-6 panel rounded-card p-7 md:p-9 grid sm:grid-cols-3 gap-6">
+        <div class="flex items-start gap-3">
+          <svg class="mt-1 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5 5 .5-4 3.5 1.5 5-4.5-2.8L7.5 17l1.5-5L5 8.5 10 8z"/></svg>
+          <div><p class="text-kinari text-[0.98rem] mb-1">記念日・祝いの席</p><p class="text-tint text-[0.84rem] leading-[1.7]">節目のお祝いに、献立へ一筆お添えします。</p></div>
+        </div>
+        <div class="flex items-start gap-3 sm:border-l sm:border-tint/12 sm:pl-6">
+          <svg class="mt-1 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7a4 4 0 1 0-8 0 4 4 0 0 0 8 0z"/><path d="M3 21a9 9 0 0 1 18 0"/></svg>
+          <div><p class="text-kinari text-[0.98rem] mb-1">接待・会食</p><p class="text-tint text-[0.84rem] leading-[1.7]">お勘定は事前精算も可。手土産のご用意も承ります。</p></div>
+        </div>
+        <div class="flex items-start gap-3 sm:border-l sm:border-tint/12 sm:pl-6">
+          <svg class="mt-1 shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B6925C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+          <div><p class="text-kinari text-[0.98rem] mb-1">顔合わせ・会合</p><p class="text-tint text-[0.84rem] leading-[1.7]">完全個室で、静かなひとときをお約束します。</p></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS ============ -->
+<section id="access" aria-labelledby="access-h" class="relative py-[96px] md:py-[140px] overflow-hidden">
+  <div class="stage-rule hidden lg:block" style="left: 50%;"></div>
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <!-- info -->
+      <div class="reveal">
+        <p class="label-en text-[0.95rem] mb-4">Access ・ Hours</p>
+        <h2 id="access-h" class="display text-kinari leading-[1.25] tracking-[0.07em] mb-10 h2-scale">店案内</h2>
+
+        <dl class="space-y-7">
+          <div class="grid grid-cols-[5.5rem_1fr] gap-4 pb-7 border-b border-tint/15">
+            <dt class="display text-kin text-[0.98rem] tracking-[0.1em]">所在</dt>
+            <dd class="text-kinari text-[0.98rem] leading-[1.78]">京都市東山区祇園町南側 570-12<br /><span class="text-tint text-[0.86rem]">祇園・花見小路を下り、二筋目を東へ</span></dd>
+          </div>
+          <div class="grid grid-cols-[5.5rem_1fr] gap-4 pb-7 border-b border-tint/15">
+            <dt class="display text-kin text-[0.98rem] tracking-[0.1em]">電話</dt>
+            <dd><a href="tel:0757710000" class="num text-kinari text-[1.5rem] link-underline hover:text-kin tap44">075-771-0000</a><br /><span class="text-tint text-[0.86rem]">受付 11:00–20:00（予約優先）</span></dd>
+          </div>
+          <div class="pb-7 border-b border-tint/15">
+            <div class="grid grid-cols-[5.5rem_1fr] gap-4">
+              <dt class="display text-kin text-[0.98rem] tracking-[0.1em]">営業</dt>
+              <dd>
+                <!-- 曜日マトリクス -->
+                <table class="w-full text-center border-collapse" aria-label="昼夜別の営業曜日">
+                  <thead>
+                    <tr class="text-tint text-[0.78rem] tracking-[0.06em]">
+                      <th scope="col" class="font-normal py-1.5 text-left"></th>
+                      <th scope="col" class="font-normal py-1.5">月</th>
+                      <th scope="col" class="font-normal py-1.5">火</th>
+                      <th scope="col" class="font-normal py-1.5">水</th>
+                      <th scope="col" class="font-normal py-1.5">木</th>
+                      <th scope="col" class="font-normal py-1.5">金</th>
+                      <th scope="col" class="font-normal py-1.5">土</th>
+                      <th scope="col" class="font-normal py-1.5">日</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-[0.92rem]">
+                    <tr class="border-t border-tint/12">
+                      <th scope="row" class="text-tint text-[0.84rem] text-left py-2.5 font-normal">昼</th>
+                      <td class="text-tint-muted">休</td><td class="text-tint-muted">休</td><td class="text-tint-muted">休</td>
+                      <td class="text-kin">○</td><td class="text-kin">○</td><td class="text-kin">○</td><td class="text-kin">○</td>
+                    </tr>
+                    <tr class="border-t border-tint/12">
+                      <th scope="row" class="text-tint text-[0.84rem] text-left py-2.5 font-normal">夜</th>
+                      <td class="text-kin">○</td><td class="text-kin">○</td><td class="text-tint-muted">休</td>
+                      <td class="text-kin">○</td><td class="text-kin">○</td><td class="text-kin">○</td><td class="text-tint-muted">休</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="text-note text-[0.82rem] mt-3 leading-[1.78]">
+                  昼 12:00 / 13:30（二部制）・ 夜 18:00 一斉スタート<br />
+                  <span class="inline-flex items-center gap-1.5"><span class="inline-block w-1.5 h-1.5 rounded-full" style="background:#C75A4A"></span>定休：水曜終日・日曜の夜</span>
+                </p>
+              </dd>
+            </div>
+          </div>
+          <div class="grid grid-cols-[5.5rem_1fr] gap-4">
+            <dt class="display text-kin text-[0.98rem] tracking-[0.1em]">交通</dt>
+            <dd class="text-kinari text-[0.95rem] leading-[1.85]">
+              京阪「祇園四条」駅 6番出口 徒歩5分<br />
+              阪急「京都河原町」駅 1B出口 徒歩9分<br />
+              <span class="text-tint text-[0.84rem]">専用駐車場はございません。提携Pをご案内します。</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- abstract map -->
+      <div class="reveal">
+        <div class="panel rounded-card overflow-hidden grain relative aspect-[4/3] lg:aspect-[5/6]">
+          <div class="absolute inset-0" style="background: radial-gradient(80% 70% at 60% 40%, rgba(182,146,92,0.07), transparent 60%), #1b1714;"></div>
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 480" fill="none" preserveAspectRatio="xMidYMid slice" aria-label="店舗周辺の略地図">
+            <!-- river -->
+            <path d="M40 0 C70 120 50 260 90 480" stroke="#8C7F72" stroke-width="10" opacity="0.18" fill="none"/>
+            <path d="M40 0 C70 120 50 260 90 480" stroke="#8C7F72" stroke-width="1" opacity="0.4" fill="none"/>
+            <text x="48" y="60" fill="#8C7F72" font-size="11" font-family="EB Garamond" font-style="italic" opacity="0.7">Kamo R.</text>
+            <!-- streets -->
+            <g stroke="#B6925C" stroke-width="1" opacity="0.35">
+              <line x1="0" y1="150" x2="400" y2="120"/>
+              <line x1="0" y1="300" x2="400" y2="270"/>
+              <line x1="150" y1="0" x2="200" y2="480"/>
+              <line x1="280" y1="0" x2="320" y2="480"/>
+            </g>
+            <text x="210" y="138" fill="#8C7F72" font-size="10" font-family="EB Garamond" font-style="italic" opacity="0.6">Shijo St.</text>
+            <text x="250" y="60" fill="#8C7F72" font-size="10" font-family="EB Garamond" font-style="italic" opacity="0.6" transform="rotate(86 250 60)">Hanamikoji</text>
+            <!-- station marker -->
+            <circle cx="120" cy="220" r="5" fill="#8C7F72" opacity="0.7"/>
+            <text x="132" y="224" fill="#8C7F72" font-size="11" font-family="Zen Kaku Gothic New">祇園四条駅</text>
+            <!-- our pin -->
+            <g transform="translate(300, 320)">
+              <circle r="26" fill="#9E3B2E" opacity="0.16"/>
+              <circle r="26" stroke="#9E3B2E" stroke-width="1" opacity="0.5"/>
+              <path d="M0 -14 C8 -14 13 -8 13 -1 C13 8 0 18 0 18 C0 18 -13 8 -13 -1 C-13 -8 -8 -14 0 -14Z" fill="#9E3B2E"/>
+              <circle cy="-1" r="4.5" fill="#14110F"/>
+            </g>
+            <text x="300" y="368" fill="#E8DECF" font-size="13" font-family="Zen Old Mincho" text-anchor="middle">沙羅雙樹</text>
+          </svg>
+          <a href="https://maps.google.com/?q=京都市東山区祇園町南側" target="_blank" rel="noopener"
+             class="absolute bottom-4 right-4 btn-ghost px-4 py-2.5 text-[0.82rem] tracking-[0.08em] inline-flex items-center gap-2 bg-sumi/70 backdrop-blur-sm">
+            地図アプリで開く
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESERVE ============ -->
+<section id="reserve" aria-labelledby="reserve-h" class="relative py-[100px] md:py-[150px] overflow-hidden grain">
+  <div class="ambient-fade pointer-events-none absolute -z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] md:w-[55vw] aspect-square"
+       style="background: radial-gradient(circle at center, rgba(158,59,46,0.13) 0%, rgba(182,146,92,0.05) 40%, transparent 65%);"></div>
+
+  <div class="max-w-[920px] mx-auto px-5 md:px-10">
+    <div class="text-center max-w-[640px] mx-auto">
+      <p class="reveal label-en text-[1rem] mb-6">Reservations</p>
+      <h2 id="reserve-h" class="reveal display text-kinari leading-[1.3] tracking-[0.07em] mb-7"
+          style="font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 500;">
+        特別な夜を、<br />ご一緒に。
+      </h2>
+      <p class="reveal lede text-tint text-[1.0rem] max-w-[36ch] mx-auto mb-14">
+        下記フォーム、またはお電話・メールにて承ります。仮予約として承り、当店より確認のご連絡を差し上げます。
+      </p>
+    </div>
+
+    <!-- 予約フォーム -->
+    <form class="reveal panel rounded-card p-7 md:p-12 text-left" novalidate aria-describedby="reserve-note">
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-7">
+        <!-- 来店日 -->
+        <div class="flex flex-col gap-2.5">
+          <label for="r-date" class="field-label">ご来店日 <span class="text-bengara-text">*</span></label>
+          <input type="date" id="r-date" name="date" required class="form-control" />
+        </div>
+        <!-- 時間帯 -->
+        <div class="flex flex-col gap-2.5">
+          <label for="r-time" class="field-label">時間帯 <span class="text-bengara-text">*</span></label>
+          <select id="r-time" name="time" required class="form-control">
+            <option value="" selected>お選びください</option>
+            <option>昼 12:00（木〜日）</option>
+            <option>昼 13:30（木〜日）</option>
+            <option>夜 18:00 一斉（月・火・木・金・土）</option>
+          </select>
+        </div>
+
+        <!-- 人数 stepper -->
+        <div class="flex flex-col gap-2.5">
+          <span class="field-label" id="r-guests-label">ご人数 <span class="text-bengara-text">*</span></span>
+          <div class="stepper" role="group" aria-labelledby="r-guests-label">
+            <button type="button" id="guestMinus" aria-label="人数を減らす">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </button>
+            <output id="guestVal" aria-live="polite">2</output>
+            <button type="button" id="guestPlus" aria-label="人数を増やす">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <span class="self-center pl-4 text-tint text-[0.86rem]">名様（中学生以上）</span>
+          </div>
+          <input type="hidden" name="guests" id="guestsInput" value="2" />
+        </div>
+
+        <!-- コース選択 ラジオ -->
+        <fieldset class="flex flex-col gap-2.5 sm:col-span-2">
+          <legend class="field-label mb-0.5">ご希望のコース <span class="text-bengara-text">*</span></legend>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <label class="radio-card">
+              <input type="radio" name="course" value="lunch" />
+              <span class="radio-face">
+                <span class="text-kinari text-[0.96rem]">昼の献立「水無月」<span class="block text-tint text-[0.8rem] mt-0.5">全六品 ・ 90分</span></span>
+                <span class="num text-kin text-[1.1rem]"><span class="yen">¥</span>8,800</span>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="course" value="dinner" checked />
+              <span class="radio-face">
+                <span class="text-kinari text-[0.96rem]">夜のおまかせ「宵」<span class="block text-tint text-[0.8rem] mt-0.5">全十品 ・ 約150分</span></span>
+                <span class="num text-kin text-[1.1rem]"><span class="yen">¥</span>22,000</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 用途/アレルギー -->
+        <div class="flex flex-col gap-2.5 sm:col-span-2">
+          <label for="r-notes" class="field-label">ご用途・アレルギー・苦手食材など</label>
+          <textarea id="r-notes" name="notes" class="form-control" placeholder="例）父の還暦祝いです。甲殻類のアレルギーがございます。個室を希望します。"></textarea>
+        </div>
+
+        <!-- 氏名 -->
+        <div class="flex flex-col gap-2.5">
+          <label for="r-name" class="field-label">お名前 <span class="text-bengara-text">*</span></label>
+          <input type="text" id="r-name" name="name" required autocomplete="name" class="form-control" placeholder="山田 花子" />
+        </div>
+        <!-- 電話 -->
+        <div class="flex flex-col gap-2.5">
+          <label for="r-tel" class="field-label">お電話番号 <span class="text-bengara-text">*</span></label>
+          <input type="tel" id="r-tel" name="tel" required autocomplete="tel" inputmode="tel" class="form-control" placeholder="090-1234-5678" />
+        </div>
+        <!-- メール -->
+        <div class="flex flex-col gap-2.5 sm:col-span-2">
+          <label for="r-email" class="field-label">メールアドレス <span class="text-bengara-text">*</span></label>
+          <input type="email" id="r-email" name="email" required autocomplete="email" class="form-control" placeholder="hanako@example.com" />
+        </div>
+      </div>
+
+      <div class="mt-9 flex flex-col sm:flex-row sm:items-center gap-5">
+        <button type="submit" class="btn-bengara px-10 py-4 tracking-[0.1em] text-[0.98rem] inline-flex items-center justify-center gap-3 w-full sm:w-auto">
+          仮予約を申し込む
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p id="reserve-note" class="text-note text-[0.82rem] leading-[1.78]">
+          この時点では予約は確定しません。当店より確認後に成立します。<br class="hidden sm:block" />
+          ご予約は前日まで。キャンセルは2日前まで無料、以降は規定の料金を申し受けます。
+        </p>
+      </div>
+      <p id="formStatus" role="status" aria-live="polite" class="text-kin text-[0.9rem] mt-5 hidden"></p>
+    </form>
+
+    <!-- 電話・メール導線 -->
+    <div class="reveal mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <p class="text-tint text-[0.86rem] tracking-[0.04em]">お急ぎの方・受付時間内（11:00–20:00）は</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="tel:0757710000" class="btn-ghost px-6 py-3 tracking-[0.08em] text-[0.9rem] inline-flex items-center justify-center gap-2.5">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          075-771-0000
+        </a>
+        <a href="mailto:reserve@sarasoju-kyoto.jp" class="btn-ghost px-6 py-3 tracking-[0.08em] text-[0.9rem] inline-flex items-center justify-center gap-2.5">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          メール
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative border-t border-kin/20 py-16 md:py-20">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <div class="flex items-baseline gap-3 mb-5">
+          <span class="display text-kinari text-[1.6rem] tracking-[0.12em]">沙羅雙樹</span>
+          <span class="label-en text-[0.78rem]">Kappo Sarasōju</span>
+        </div>
+        <p class="lede text-tint text-[0.88rem] max-w-[34ch]">
+          京・東山に灯る、八席の割烹。<br />
+          一夜限りの献立で、ハレの日をしつらえます。
+        </p>
+      </div>
+
+      <nav class="md:col-span-3" aria-label="フッターナビゲーション">
+        <p class="label-en text-[0.78rem] mb-4">Menu</p>
+        <ul class="text-[0.9rem] text-tint">
+          <li><a href="#concept" class="link-underline hover:text-kinari tap44 py-1">志</a></li>
+          <li><a href="#course" class="link-underline hover:text-kinari tap44 py-1">献立</a></li>
+          <li><a href="#shun" class="link-underline hover:text-kinari tap44 py-1">旬の一品</a></li>
+          <li><a href="#room" class="link-underline hover:text-kinari tap44 py-1">設え</a></li>
+          <li><a href="#access" class="link-underline hover:text-kinari tap44 py-1">店案内</a></li>
+        </ul>
+      </nav>
+
+      <div class="md:col-span-4">
+        <p class="label-en text-[0.78rem] mb-4">Contact</p>
+        <a href="tel:0757710000" class="num text-kinari text-[1.4rem] mb-1 link-underline hover:text-kin tap44">075-771-0000</a>
+        <p class="text-tint text-[0.86rem] mb-4">受付 11:00–20:00</p>
+        <p class="text-tint text-[0.86rem] leading-[1.78]">
+          京都市東山区祇園町南側 570-12<br />
+          <a href="mailto:reserve@sarasoju-kyoto.jp" class="link-underline hover:text-kinari tap44 py-1">reserve@sarasoju-kyoto.jp</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-8 border-t border-tint/12 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[0.76rem] text-note tracking-[0.04em]">
+      <p>© 2026 Kappo Sarasōju. All rights reserved.</p>
+      <ul class="flex gap-6">
+        <li><a href="#" class="link-underline hover:text-kinari tap44 py-2">特定商取引法</a></li>
+        <li><a href="#" class="link-underline hover:text-kinari tap44 py-2">プライバシー</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY RESERVE BAR ============ -->
+<div id="reserveBar" class="fixed bottom-0 inset-x-0 z-30 bg-tan/95 backdrop-blur-md border-t border-bengara/40">
+  <div class="max-w-[1280px] mx-auto px-5 md:px-10 py-3 flex items-center justify-between gap-4">
+    <div class="hidden sm:block">
+      <p class="display text-kinari text-[0.98rem] tracking-[0.06em] leading-tight">夜のおまかせ「宵」<span class="num text-kin ml-2"><span class="yen">¥</span>22,000</span></p>
+      <p class="text-tint text-[0.74rem]">月・火・木・金・土 18:00 一斉 ・ 完全予約制</p>
+    </div>
+    <div class="flex items-center gap-2.5 w-full sm:w-auto">
+      <a href="tel:0757710000" class="btn-ghost flex-1 sm:flex-none px-5 py-3 text-center text-[0.86rem] tracking-[0.08em] inline-flex items-center justify-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span class="sm:hidden">電話</span><span class="hidden sm:inline">お電話</span>
+      </a>
+      <a href="#reserve" class="btn-bengara flex-1 sm:flex-none px-6 py-3 text-center text-[0.86rem] tracking-[0.1em] inline-flex items-center justify-center">ご予約</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== mobile menu (focus-trapped dialog) =====
+  (function () {
+    var menu = document.getElementById('mobileMenu');
+    var toggle = document.getElementById('menuToggle');
+    var close = document.getElementById('menuClose');
+    var FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    function focusables() {
+      return Array.prototype.filter.call(
+        menu.querySelectorAll(FOCUSABLE),
+        function (el) { return el.offsetParent !== null; }
+      );
+    }
+    function open() {
+      menu.classList.remove('hidden'); menu.classList.add('flex');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      var f = focusables();
+      if (f.length) f[0].focus();
+    }
+    function shut() {
+      menu.classList.add('hidden'); menu.classList.remove('flex');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      toggle.focus();
+    }
+    toggle.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    document.querySelectorAll('.mobile-link').forEach(function (l) {
+      l.addEventListener('click', shut);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (menu.classList.contains('hidden')) return;
+      if (e.key === 'Escape') { shut(); return; }
+      if (e.key === 'Tab') {
+        var f = focusables();
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+
+  // ===== topbar on scroll =====
+  (function () {
+    var bar = document.getElementById('topbar');
+    var reserveBar = document.getElementById('reserveBar');
+    function onScroll() {
+      var y = window.scrollY;
+      if (y > 40) {
+        bar.classList.add('bg-sumi/92', 'backdrop-blur-md', 'border-kin/20');
+        bar.classList.remove('border-transparent');
+      } else {
+        bar.classList.remove('bg-sumi/92', 'backdrop-blur-md', 'border-kin/20');
+        bar.classList.add('border-transparent');
+      }
+      if (y > 240) reserveBar.classList.add('show');
+      else reserveBar.classList.remove('show');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // ===== reservation form: stepper + submit =====
+  (function () {
+    var out = document.getElementById('guestVal');
+    var hidden = document.getElementById('guestsInput');
+    var minus = document.getElementById('guestMinus');
+    var plus = document.getElementById('guestPlus');
+    if (out && minus && plus) {
+      var MIN = 1, MAX = 8;
+      function set(n) {
+        n = Math.max(MIN, Math.min(MAX, n));
+        out.textContent = n; hidden.value = n;
+        minus.disabled = (n <= MIN); plus.disabled = (n >= MAX);
+        minus.style.opacity = minus.disabled ? '0.4' : '';
+        plus.style.opacity = plus.disabled ? '0.4' : '';
+      }
+      minus.addEventListener('click', function () { set(parseInt(out.textContent, 10) - 1); });
+      plus.addEventListener('click', function () { set(parseInt(out.textContent, 10) + 1); });
+      set(2);
+    }
+
+    var form = document.querySelector('#reserve form');
+    var status = document.getElementById('formStatus');
+    if (form && status) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        status.classList.remove('hidden');
+        status.textContent = 'お申し込みを受け付けました。確認のご連絡まで今しばらくお待ちください。';
+        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
+  })();
+
+  // ===== reveal on scroll =====
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, i) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = el.dataset.delay ? parseInt(el.dataset.delay) : (i % 3) * 90;
+          setTimeout(function () { el.classList.add('in'); }, delay);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>

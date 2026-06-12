@@ -4,8 +4,9 @@ Claude Code のデザインハーネス（`/design`）で生成した、高級�
 
 ## 公開ページ
 
-- **LP本体（採用案）**: https://ryuto-alt.github.io/kappo-lp/
-- 納品レポート（3案比較・審査スコア）: https://ryuto-alt.github.io/kappo-lp/report.html
+- **全体（3案ギャラリー＋審査スコア）**: https://ryuto-alt.github.io/kappo-lp/
+- 採用LPを全画面で: https://ryuto-alt.github.io/kappo-lp/lp.html
+- 各案を個別に: [proto-a](https://ryuto-alt.github.io/kappo-lp/proto-a.html) / [proto-b（採用）](https://ryuto-alt.github.io/kappo-lp/proto-b.html) / [proto-c](https://ryuto-alt.github.io/kappo-lp/proto-c.html)
 
 ## 採用案について
 
@@ -17,8 +18,8 @@ Claude Code のデザインハーネス（`/design`）で生成した、高級�
 
 | ファイル | 内容 |
 |---|---|
-| `index.html` | 採用案LP（このページのトップ） |
-| `report.html` | 納品レポート（3案ギャラリー・スコア・選定理由） |
+| `index.html` | 全体ページ（3案ギャラリー・スコア・選定理由） |
+| `lp.html` | 採用案LPを全画面表示 |
 | `proto-{a,b,c}.html` | 3方向のデザイン案 |
 | `design-system.md` / `tokens.css` / `tailwind.preset.js` | デザインシステム一式 |
 | `components/` | React + Tailwind 実装コンポーネント |
