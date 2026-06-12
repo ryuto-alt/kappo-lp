@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>割烹 翠月 — 季節を映す、静かな一席</title>
+<meta name="description" content="旬の素材と研ぎ澄まされた仕事で綴る日本料理。記念日・接待・会食に。京橋の割烹 翠月、夜のコースを中心にご用意しております。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          washi:   '#F4EFE3',   /* 生成り和紙白 base 60 */
+          washi2:  '#EBE4D4',   /* やや沈んだ和紙 */
+          sumi:    '#1C1916',   /* 濡羽の暖色墨 30 */
+          sumi2:   '#2A2620',   /* 墨の面・カード */
+          tint:    '#6E665A',   /* ティントグレー（茶系） */
+          brass:   '#A8895A',   /* 燻し金 accent 10 */
+          brassLt: '#C2A877',   /* 金のハイライト */
+        },
+        fontFamily: {
+          mincho: ['"Shippori Mincho B1"', 'serif'],
+          serif:  ['"Noto Serif JP"', 'serif'],
+          latin:  ['"Cormorant Garamond"', 'serif'],
+        },
+        letterSpacing: {
+          kappo: '0.12em',
+        },
+        borderRadius: {
+          none: '0px',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    /* ===== Design Tokens ===== */
+    --color-washi:   #F4EFE3;
+    --color-washi-2: #EBE4D4;
+    --color-sumi:    #1C1916;
+    --color-sumi-2:  #2A2620;
+    --color-tint:    #6E665A;
+    --color-brass:   #A8895A;
+    --color-brass-light: #C2A877;
+
+    --font-display: "Shippori Mincho B1", serif;
+    --font-body:    "Noto Serif JP", serif;
+    --font-latin:   "Cormorant Garamond", serif;
+
+    /* 4 / 8px spacing scale */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+    --space-24: 96px;
+    --space-32: 128px;
+    --space-40: 160px;
+
+    --rule: 1px;
+    --hairline: rgba(168, 137, 90, 0.55); /* 燻し金 hairline */
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-washi);
+    color: var(--color-sumi);
+    font-family: var(--font-body);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .font-feat { font-feature-settings: "palt" 1; }
+
+  .mincho   { font-family: var(--font-display); font-feature-settings: "palt" 1; }
+  .latin    { font-family: var(--font-latin); }
+
+  /* 縦組み */
+  .vertical {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-feature-settings: "palt" 1;
+  }
+  .vertical-mixed {
+    writing-mode: vertical-rl;
+    font-feature-settings: "palt" 1;
+  }
+
+  /* 金の極細罫 ── この案の指紋 */
+  .gold-rule {
+    height: var(--rule);
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--color-brass) 12%,
+      var(--color-brass-light) 50%,
+      var(--color-brass) 88%,
+      transparent 100%);
+    opacity: 0.85;
+  }
+  .gold-rule-v {
+    width: var(--rule);
+    background: linear-gradient(180deg,
+      transparent 0%,
+      var(--color-brass) 12%,
+      var(--color-brass-light) 50%,
+      var(--color-brass) 88%,
+      transparent 100%);
+    opacity: 0.85;
+  }
+
+  /* 金の額装フレーム（写真が入る器） */
+  .gold-frame {
+    position: relative;
+    border: 1px solid var(--hairline);
+  }
+  .gold-frame::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(168, 137, 90, 0.3);
+    pointer-events: none;
+  }
+
+  /* 料理プレースホルダのテクスチャ（CSSのみ） */
+  .dish-1 {
+    background:
+      radial-gradient(120% 90% at 30% 25%, rgba(194,168,119,0.18) 0%, transparent 55%),
+      radial-gradient(80% 80% at 78% 72%, rgba(44,38,32,0.55) 0%, transparent 60%),
+      linear-gradient(155deg, #3a342b 0%, #211d18 55%, #14110d 100%);
+  }
+  .dish-2 {
+    background:
+      radial-gradient(100% 100% at 70% 20%, rgba(168,137,90,0.22) 0%, transparent 50%),
+      linear-gradient(160deg, #2c2823 0%, #1c1916 60%, #100e0b 100%);
+  }
+  .dish-3 {
+    background:
+      radial-gradient(90% 90% at 25% 80%, rgba(110,102,90,0.3) 0%, transparent 55%),
+      linear-gradient(140deg, #38322a 0%, #221e19 70%);
+  }
+  .room-tex {
+    background:
+      linear-gradient(180deg, rgba(244,239,227,0) 0%, rgba(28,25,22,0.04) 100%),
+      repeating-linear-gradient(90deg, rgba(28,25,22,0.05) 0px, rgba(28,25,22,0.05) 1px, transparent 1px, transparent 26px),
+      linear-gradient(135deg, #ece5d6 0%, #e2dac9 100%);
+  }
+
+  /* fade-in */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 700ms cubic-bezier(.22,.61,.36,1), transform 700ms cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* links / buttons */
+  a, button { transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, opacity 200ms ease; }
+
+  .btn-primary {
+    position: relative;
+    border: 1px solid var(--color-brass);
+    color: var(--color-washi);
+    background: var(--color-sumi);
+    letter-spacing: 0.14em;
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute; inset: 4px;
+    border: 1px solid rgba(168,137,90,0.45);
+    pointer-events: none;
+    transition: inset 220ms ease, border-color 220ms ease;
+  }
+  .btn-primary:hover { background: #100e0b; }
+  .btn-primary:hover::after { inset: 6px; border-color: var(--color-brass-light); }
+
+  .btn-ghost {
+    border: 1px solid var(--hairline);
+    color: var(--color-sumi);
+    letter-spacing: 0.14em;
+  }
+  .btn-ghost:hover { border-color: var(--color-brass); color: #100e0b; background: rgba(168,137,90,0.06); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 3px;
+  }
+
+  .nav-link { position: relative; letter-spacing: 0.1em; }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0; bottom: -4px;
+    width: 0; height: 1px; background: var(--color-brass);
+    transition: width 240ms ease;
+  }
+  .nav-link:hover::after, .nav-link:focus-visible::after { width: 100%; }
+
+  .menu-row { border-bottom: 1px solid rgba(28,25,22,0.12); }
+  .menu-row:last-child { border-bottom: none; }
+
+  /* mobile drawer */
+  #drawer { transition: opacity 280ms ease, visibility 280ms ease; }
+  #drawer.open { opacity: 1; visibility: visible; pointer-events: auto; }
+</style>
+</head>
+<body class="font-feat antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="fixed top-0 inset-x-0 z-50 bg-washi/85 backdrop-blur-sm">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="flex items-center justify-between h-[68px] md:h-[80px]">
+      <a href="#hero" class="flex items-baseline gap-3" aria-label="割烹 翠月 トップへ">
+        <span class="mincho text-[22px] md:text-[24px] font-semibold tracking-kappo text-sumi">翠月</span>
+        <span class="latin text-[13px] md:text-sm text-brass tracking-[0.22em] uppercase">Suigetsu</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-9 text-[13px] text-tint" aria-label="メインナビゲーション">
+        <a href="#concept" class="nav-link">こだわり</a>
+        <a href="#course"  class="nav-link">お品書き</a>
+        <a href="#season"  class="nav-link">旬の一品</a>
+        <a href="#room"    class="nav-link">しつらえ</a>
+        <a href="#access"  class="nav-link">ご案内</a>
+      </nav>
+
+      <a href="#reserve" class="hidden md:inline-flex items-center px-6 py-3 text-[12px] btn-ghost">
+        ご予約・お問い合わせ
+      </a>
+
+      <button id="menuBtn" class="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-sumi">
+          <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="gold-rule"></div>
+</header>
+
+<!-- mobile drawer -->
+<div id="drawer" class="fixed inset-0 z-[60] invisible opacity-0 md:hidden" role="dialog" aria-modal="true" aria-label="ナビゲーション">
+  <div class="absolute inset-0 bg-sumi/95"></div>
+  <div class="relative h-full flex flex-col px-8 pt-7 pb-12">
+    <div class="flex items-center justify-between">
+      <span class="mincho text-[22px] text-washi tracking-kappo">翠月</span>
+      <button id="closeBtn" class="w-11 h-11 inline-flex items-center justify-center text-washi" aria-label="メニューを閉じる">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="gold-rule mt-6"></div>
+    <nav class="flex flex-col gap-7 mt-12 text-washi" aria-label="モバイルナビゲーション">
+      <a href="#concept" class="drawer-link mincho text-[26px] tracking-kappo">こだわり<span class="latin block text-[12px] text-brassLt tracking-[0.2em] mt-1">Concept</span></a>
+      <a href="#course"  class="drawer-link mincho text-[26px] tracking-kappo">お品書き<span class="latin block text-[12px] text-brassLt tracking-[0.2em] mt-1">Course</span></a>
+      <a href="#season"  class="drawer-link mincho text-[26px] tracking-kappo">旬の一品<span class="latin block text-[12px] text-brassLt tracking-[0.2em] mt-1">Season</span></a>
+      <a href="#room"    class="drawer-link mincho text-[26px] tracking-kappo">しつらえ<span class="latin block text-[12px] text-brassLt tracking-[0.2em] mt-1">Interior</span></a>
+      <a href="#access"  class="drawer-link mincho text-[26px] tracking-kappo">ご案内<span class="latin block text-[12px] text-brassLt tracking-[0.2em] mt-1">Access</span></a>
+    </nav>
+    <a href="#reserve" class="drawer-link mt-auto inline-flex items-center justify-center px-6 py-4 btn-primary text-[13px]">ご予約・お問い合わせ</a>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative pt-[68px] md:pt-[80px]">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="grid grid-cols-12 gap-6 md:gap-8 items-stretch min-h-[calc(100vh-80px)] py-12 md:py-20">
+
+      <!-- 縦組み店名（左） -->
+      <div class="col-span-12 md:col-span-5 flex md:flex-col md:items-start justify-between">
+        <div class="flex items-start gap-6 md:h-full">
+          <div class="hidden md:block gold-rule-v self-stretch"></div>
+          <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-7">
+            <p class="latin text-brass text-[13px] md:text-sm tracking-[0.3em] uppercase md:[writing-mode:vertical-rl] md:rotate-0">Kappo&nbsp;Suigetsu</p>
+            <h1 class="vertical mincho text-sumi font-semibold leading-[1.08] tracking-[0.14em]"
+                style="font-size: clamp(2.75rem, 7vw, 5.5rem);">
+              割烹 翠月
+            </h1>
+            <p class="vertical-mixed serif text-tint text-[15px] md:text-base leading-[2] tracking-[0.08em] hidden md:block">
+              季節を映す、静かな一席。
+            </p>
+          </div>
+        </div>
+        <div class="md:mt-12 self-end md:self-start max-w-[20rem]">
+          <p class="serif text-[15px] md:hidden text-tint leading-[1.9]">季節を映す、静かな一席。</p>
+        </div>
+      </div>
+
+      <!-- 写真が入る器（右7カラム） -->
+      <div class="col-span-12 md:col-span-7 flex flex-col">
+        <div class="gold-frame dish-1 w-full flex-1 min-h-[42vh] md:min-h-0 relative overflow-hidden">
+          <!-- inline SVG 抽象の盛り付け -->
+          <svg class="absolute inset-0 w-full h-full opacity-[0.9]" viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <circle cx="300" cy="280" r="180" fill="none" stroke="#A8895A" stroke-width="1" opacity="0.35"/>
+            <circle cx="300" cy="280" r="120" fill="none" stroke="#C2A877" stroke-width="0.75" opacity="0.4"/>
+            <path d="M210 300 Q300 210 390 300 Q300 360 210 300 Z" fill="none" stroke="#C2A877" stroke-width="1.25" opacity="0.55"/>
+            <ellipse cx="300" cy="280" rx="46" ry="26" fill="#A8895A" opacity="0.25"/>
+          </svg>
+          <span class="absolute left-5 bottom-5 latin text-brassLt/90 text-[11px] tracking-[0.28em] uppercase">Plate &mdash; 先付</span>
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-[12px] text-tint tracking-[0.06em]">京橋 ／ 夜のコースを中心に</p>
+          <p class="latin text-brass text-[13px] tracking-[0.2em]">Est. 1992</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- hero下の金罫 + リード -->
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="gold-rule"></div>
+    <div class="grid grid-cols-12 gap-6 md:gap-8 py-10 md:py-16">
+      <div class="col-span-12 md:col-span-4">
+        <p class="latin text-brass text-sm tracking-[0.24em] uppercase">Welcome</p>
+      </div>
+      <div class="col-span-12 md:col-span-8 max-w-[38ch]">
+        <p class="serif text-[16px] md:text-[18px] leading-[1.9] text-sumi">
+          一年を二十四に分けた節気に寄り添い、そのときどきの素材を一番美味しい姿でお出しする。
+          余計な手数を引き算した、静かな割烹です。記念日に、大切なご会食に、どうぞごゆっくりと。
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#access" class="inline-flex items-center gap-3 px-7 py-4 btn-primary text-[13px]">
+            お店を見る・道順を確認する
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <a href="#reserve" class="inline-flex items-center px-7 py-4 btn-ghost text-[13px]">ご予約はこちら</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCEPT ============ -->
+<section id="concept" class="py-[96px] md:py-[140px]">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="grid grid-cols-12 gap-6 md:gap-8">
+
+      <div class="col-span-12 md:col-span-4 reveal">
+        <p class="latin text-brass text-sm tracking-[0.24em] uppercase">Concept</p>
+        <h2 class="mincho text-[30px] md:text-[40px] font-semibold tracking-kappo leading-[1.3] mt-4 text-sumi">
+          数えるほどの席で、<br>季節と向き合う。
+        </h2>
+        <div class="gold-rule mt-8 max-w-[160px]"></div>
+      </div>
+
+      <div class="col-span-12 md:col-span-7 md:col-start-6 reveal">
+        <p class="serif text-[16px] md:text-[17px] leading-[1.95] text-sumi max-w-[40ch]">
+          翠月は、カウンター八席と個室二室のみの小さな割烹です。
+          仕入れはその日の市場で決め、献立は朝に組み直す。だから同じ夜は二度とありません。
+        </p>
+        <p class="serif text-[16px] md:text-[17px] leading-[1.95] text-tint max-w-[40ch] mt-6">
+          出汁は利尻昆布と本枯節を合わせ、塩は能登の藻塩。火と水と時間の加減だけで、
+          素材そのものの輪郭を立ち上げます。だしを引く香りがそのまま、店の挨拶です。
+        </p>
+
+        <!-- 店主の言葉 -->
+        <figure class="mt-12 pl-6 md:pl-8 border-l border-[var(--hairline)] reveal">
+          <blockquote class="mincho text-[19px] md:text-[22px] leading-[1.7] tracking-[0.04em] text-sumi">
+            「料理は、引くほどに季節が立つ。<br>足さない勇気を、毎晩試されています。」
+          </blockquote>
+          <figcaption class="mt-5 text-[13px] text-tint tracking-[0.06em]">
+            <span class="mincho text-[15px] text-sumi tracking-kappo">店主 ・ 三宅 宗一郎</span>
+            <span class="latin text-brass ml-3 tracking-[0.18em]">Soichiro Miyake</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- 3つの仕事（等幅回避：縦罫間仕切り） -->
+    <div class="gold-rule mt-[80px] md:mt-[112px]"></div>
+    <div class="grid grid-cols-12 gap-0 mt-12 md:mt-16">
+      <div class="col-span-12 md:col-span-4 reveal md:pr-10">
+        <p class="latin text-brass text-[13px] tracking-[0.2em]">01</p>
+        <h3 class="mincho text-[20px] md:text-[22px] font-medium tracking-kappo mt-3 text-sumi">朝の市場で決める</h3>
+        <p class="serif text-[15px] leading-[1.9] text-tint mt-4 max-w-[34ch]">豊洲と地方の産地から、その日最も状態の良いものだけを少量ずつ。献立は当日に確定します。</p>
+      </div>
+      <div class="hidden md:block col-span-0 self-stretch"></div>
+      <div class="col-span-12 md:col-span-4 reveal mt-10 md:mt-0 md:px-10 md:border-l md:border-[rgba(28,25,22,0.14)]">
+        <p class="latin text-brass text-[13px] tracking-[0.2em]">02</p>
+        <h3 class="mincho text-[20px] md:text-[22px] font-medium tracking-kappo mt-3 text-sumi">一番だしの一汁</h3>
+        <p class="serif text-[15px] leading-[1.9] text-tint mt-4 max-w-[34ch]">利尻昆布と本枯節。澄んだ椀ものに、店のすべてが映ります。提供直前に引く香りを大切に。</p>
+      </div>
+      <div class="col-span-12 md:col-span-4 reveal mt-10 md:mt-0 md:pl-10 md:border-l md:border-[rgba(28,25,22,0.14)]">
+        <p class="latin text-brass text-[13px] tracking-[0.2em]">03</p>
+        <h3 class="mincho text-[20px] md:text-[22px] font-medium tracking-kappo mt-3 text-sumi">器とともに供す</h3>
+        <p class="serif text-[15px] leading-[1.9] text-tint mt-4 max-w-[34ch]">古唐津、九谷、作家ものの錫。料理の温度と季節に合わせ、一皿ごとに器を選びます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSE（墨地・献立表形式） ============ -->
+<section id="course" class="bg-sumi text-washi py-[96px] md:py-[144px] relative overflow-hidden">
+  <div class="gold-rule absolute top-0 inset-x-0"></div>
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="grid grid-cols-12 gap-6 md:gap-8 items-end">
+      <div class="col-span-12 md:col-span-7 reveal">
+        <p class="latin text-brassLt text-sm tracking-[0.24em] uppercase">Course</p>
+        <h2 class="mincho text-[30px] md:text-[44px] font-semibold tracking-kappo leading-[1.25] mt-4 text-washi">お品書き</h2>
+      </div>
+      <div class="col-span-12 md:col-span-5 reveal">
+        <p class="serif text-[15px] leading-[1.9] text-washi/70 max-w-[36ch] md:text-right md:ml-auto">
+          すべておまかせのコース仕立て。アレルギー・お祝いの席は、ご予約時にお申し付けください。
+        </p>
+      </div>
+    </div>
+
+    <div class="gold-rule mt-10 md:mt-14"></div>
+
+    <!-- 献立表：縦罫で間仕切る非対称配置 -->
+    <div class="grid grid-cols-12 gap-0 mt-12 md:mt-16">
+
+      <!-- 夜 -->
+      <div class="col-span-12 md:col-span-7 md:pr-12 reveal">
+        <div class="flex items-baseline justify-between">
+          <h3 class="mincho text-[24px] md:text-[28px] tracking-kappo text-washi">夜 ・ おまかせ</h3>
+          <span class="latin text-brassLt text-[15px] tracking-[0.18em]">Dinner</span>
+        </div>
+
+        <ul class="mt-8">
+          <li class="menu-row !border-[rgba(168,137,90,0.22)] flex items-baseline justify-between py-5">
+            <div>
+              <p class="mincho text-[18px] tracking-[0.06em] text-washi">月 — つき</p>
+              <p class="serif text-[13px] text-washi/55 mt-1">先付から水菓子まで 全八品</p>
+            </div>
+            <p class="latin text-[22px] text-brassLt tracking-[0.04em] whitespace-nowrap">¥ 16,500</p>
+          </li>
+          <li class="menu-row !border-[rgba(168,137,90,0.22)] flex items-baseline justify-between py-5">
+            <div>
+              <p class="mincho text-[18px] tracking-[0.06em] text-washi">花 — はな</p>
+              <p class="serif text-[13px] text-washi/55 mt-1">お椀・お造り・焼八寸を厚く 全十品</p>
+            </div>
+            <p class="latin text-[22px] text-brassLt tracking-[0.04em] whitespace-nowrap">¥ 22,000</p>
+          </li>
+          <li class="menu-row !border-[rgba(168,137,90,0.22)] flex items-baseline justify-between py-5">
+            <div>
+              <p class="mincho text-[18px] tracking-[0.06em] text-washi">雪 — ゆき</p>
+              <p class="serif text-[13px] text-washi/55 mt-1">主菜に旬の特別食材 全十二品</p>
+            </div>
+            <p class="latin text-[22px] text-brassLt tracking-[0.04em] whitespace-nowrap">¥ 30,000</p>
+          </li>
+        </ul>
+        <p class="serif text-[12px] text-washi/45 mt-5">表示は税込・サービス料10%別。お飲物のペアリングは別途 ¥8,800 より。</p>
+      </div>
+
+      <!-- 縦罫 + 昼 -->
+      <div class="col-span-12 md:col-span-5 md:pl-12 mt-12 md:mt-0 md:border-l md:border-[rgba(168,137,90,0.3)] reveal">
+        <div class="flex items-baseline justify-between">
+          <h3 class="mincho text-[24px] md:text-[28px] tracking-kappo text-washi">昼 ・ 点心</h3>
+          <span class="latin text-brassLt text-[15px] tracking-[0.18em]">Lunch</span>
+        </div>
+        <ul class="mt-8">
+          <li class="menu-row !border-[rgba(168,137,90,0.22)] flex items-baseline justify-between py-5">
+            <div>
+              <p class="mincho text-[18px] tracking-[0.06em] text-washi">翠月御膳</p>
+              <p class="serif text-[13px] text-washi/55 mt-1">季節の八寸と土鍋ご飯 全六品</p>
+            </div>
+            <p class="latin text-[22px] text-brassLt tracking-[0.04em] whitespace-nowrap">¥ 8,800</p>
+          </li>
+          <li class="menu-row !border-[rgba(168,137,90,0.22)] flex items-baseline justify-between py-5">
+            <div>
+              <p class="mincho text-[18px] tracking-[0.06em] text-washi">昼のおまかせ</p>
+              <p class="serif text-[13px] text-washi/55 mt-1">夜に準じた縮約 全八品</p>
+            </div>
+            <p class="latin text-[22px] text-brassLt tracking-[0.04em] whitespace-nowrap">¥ 13,200</p>
+          </li>
+        </ul>
+
+        <div class="gold-frame dish-2 mt-10 aspect-[4/3] relative overflow-hidden">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect x="90" y="80" width="220" height="140" rx="6" fill="none" stroke="#C2A877" stroke-width="1" opacity="0.4"/>
+            <line x1="200" y1="80" x2="200" y2="220" stroke="#A8895A" stroke-width="0.75" opacity="0.35"/>
+            <circle cx="145" cy="150" r="22" fill="#A8895A" opacity="0.2"/>
+            <circle cx="255" cy="150" r="22" fill="#A8895A" opacity="0.14"/>
+          </svg>
+          <span class="absolute left-4 bottom-3 latin text-brassLt/80 text-[11px] tracking-[0.24em] uppercase">折敷 ・ 八寸</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gold-rule absolute bottom-0 inset-x-0"></div>
+</section>
+
+<!-- ============ SEASON（旬の一品・オーバーラップ） ============ -->
+<section id="season" class="py-[96px] md:py-[144px]">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="reveal max-w-[42ch]">
+      <p class="latin text-brass text-sm tracking-[0.24em] uppercase">Seasonal</p>
+      <h2 class="mincho text-[30px] md:text-[44px] font-semibold tracking-kappo leading-[1.25] mt-4 text-sumi">水無月の献立より</h2>
+      <p class="serif text-[15px] leading-[1.9] text-tint mt-5">六月、走りの鱧と名残の初鰹。梅雨の合間に、京の青楓を映した一席を。</p>
+    </div>
+
+    <!-- 旬の一品 1 : 左右オフセット -->
+    <div class="mt-16 md:mt-24 grid grid-cols-12 gap-6 md:gap-8 items-center">
+      <div class="col-span-12 md:col-span-7 reveal">
+        <div class="gold-frame dish-1 aspect-[16/10] relative overflow-hidden">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <path d="M120 230 Q320 130 520 230" fill="none" stroke="#C2A877" stroke-width="1.25" opacity="0.5"/>
+            <path d="M150 250 Q320 180 490 250" fill="none" stroke="#A8895A" stroke-width="1" opacity="0.35"/>
+            <ellipse cx="320" cy="240" rx="150" ry="60" fill="none" stroke="#A8895A" stroke-width="0.75" opacity="0.3"/>
+          </svg>
+          <span class="absolute left-5 bottom-5 latin text-brassLt/90 text-[11px] tracking-[0.26em] uppercase">Hamo &mdash; 鱧</span>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-5 md:-ml-16 md:-mt-12 reveal">
+        <div class="bg-washi md:p-10 md:gold-frame">
+          <p class="latin text-brass text-[13px] tracking-[0.2em]">壱の皿</p>
+          <h3 class="mincho text-[24px] md:text-[28px] tracking-kappo mt-3 text-sumi">鱧の落とし、梅肉と</h3>
+          <p class="serif text-[15px] leading-[1.95] text-tint mt-5 max-w-[34ch]">
+            淡路の鱧を骨切りし、氷で締めて牡丹の花に。紀州南高梅の梅肉と、青柚子をひと刷毛。
+            湯引きの香りに、夏のはじまりを。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 旬の一品 2 : 逆オフセット -->
+    <div class="mt-20 md:mt-28 grid grid-cols-12 gap-6 md:gap-8 items-center">
+      <div class="col-span-12 md:col-span-5 md:order-1 order-2 md:-mr-16 md:-mb-12 relative z-10 reveal">
+        <div class="bg-washi md:p-10 md:gold-frame">
+          <p class="latin text-brass text-[13px] tracking-[0.2em]">弐の皿</p>
+          <h3 class="mincho text-[24px] md:text-[28px] tracking-kappo mt-3 text-sumi">初鰹の藁焼き、土佐酢</h3>
+          <p class="serif text-[15px] leading-[1.95] text-tint mt-5 max-w-[34ch]">
+            高知の戻りを待たぬ走りの一本。藁の強火で表を炙り、芯は生のまま。
+            実山椒の土佐酢ジュレと、新生姜の香りで。
+          </p>
+        </div>
+      </div>
+      <div class="col-span-12 md:col-span-7 md:order-2 order-1 reveal">
+        <div class="gold-frame dish-3 aspect-[16/10] relative overflow-hidden">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <line x1="160" y1="150" x2="480" y2="150" stroke="#C2A877" stroke-width="1" opacity="0.45"/>
+            <line x1="180" y1="200" x2="460" y2="200" stroke="#A8895A" stroke-width="1" opacity="0.35"/>
+            <line x1="200" y1="250" x2="440" y2="250" stroke="#A8895A" stroke-width="0.75" opacity="0.28"/>
+            <rect x="240" y="120" width="160" height="160" fill="none" stroke="#A8895A" stroke-width="0.75" opacity="0.25" transform="rotate(8 320 200)"/>
+          </svg>
+          <span class="absolute left-5 bottom-5 latin text-brassLt/90 text-[11px] tracking-[0.26em] uppercase">Katsuo &mdash; 初鰹</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROOM（しつらえ・接待会食訴求） ============ -->
+<section id="room" class="py-[96px] md:py-[144px]">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="gold-rule"></div>
+    <div class="grid grid-cols-12 gap-6 md:gap-8 pt-12 md:pt-16">
+      <div class="col-span-12 md:col-span-4 reveal">
+        <p class="latin text-brass text-sm tracking-[0.24em] uppercase">Interior</p>
+        <h2 class="mincho text-[30px] md:text-[40px] font-semibold tracking-kappo leading-[1.3] mt-4 text-sumi">静けさを、<br>もてなす。</h2>
+        <p class="serif text-[15px] leading-[1.9] text-tint mt-6 max-w-[34ch]">
+          檜のカウンターと、坪庭を望む二つの個室。
+          接待やご会食では、声の届きすぎない距離と、ほどよい照度を大切にしています。
+        </p>
+        <ul class="mt-8 space-y-4 text-[14px] text-sumi">
+          <li class="flex items-start gap-3">
+            <svg class="mt-1 shrink-0 text-brass" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>
+            <span class="serif leading-[1.7]">完全個室 二室（2〜6名様・要予約）</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-1 shrink-0 text-brass" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 3 7h8c1-2 3-4 3-7a7 7 0 0 0-7-7Z"/><path d="M9 21h6"/></svg>
+            <span class="serif leading-[1.7]">記念日のお祝い・サプライズのご相談を承ります</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg class="mt-1 shrink-0 text-brass" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M6 12V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v6"/><path d="M4 18h16"/></svg>
+            <span class="serif leading-[1.7]">カウンター八席 ／ お一人様も歓迎</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 非対称ギャラリー -->
+      <div class="col-span-12 md:col-span-8 reveal">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
+          <div class="col-span-12 md:col-span-8">
+            <div class="gold-frame room-tex aspect-[16/10] relative overflow-hidden">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <line x1="0" y1="260" x2="640" y2="260" stroke="#6E665A" stroke-width="1" opacity="0.25"/>
+                <rect x="60" y="120" width="520" height="140" fill="none" stroke="#A8895A" stroke-width="0.75" opacity="0.3"/>
+                <line x1="320" y1="80" x2="320" y2="260" stroke="#6E665A" stroke-width="0.75" opacity="0.18"/>
+              </svg>
+              <span class="absolute left-5 bottom-5 mincho text-tint text-[13px] tracking-[0.1em]">檜のカウンター</span>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-4">
+            <div class="gold-frame dish-2 h-full min-h-[160px] relative overflow-hidden">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect x="70" y="100" width="160" height="200" fill="none" stroke="#C2A877" stroke-width="1" opacity="0.4"/>
+                <circle cx="150" cy="200" r="40" fill="#A8895A" opacity="0.15"/>
+              </svg>
+              <span class="absolute left-4 bottom-4 latin text-brassLt/80 text-[11px] tracking-[0.22em] uppercase">坪庭</span>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-5 md:mt-2">
+            <div class="gold-frame room-tex aspect-[5/4] relative overflow-hidden">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <line x1="40" y1="160" x2="360" y2="160" stroke="#6E665A" stroke-width="0.75" opacity="0.2"/>
+                <rect x="120" y="90" width="160" height="140" fill="none" stroke="#A8895A" stroke-width="0.75" opacity="0.28"/>
+              </svg>
+              <span class="absolute left-4 bottom-4 mincho text-tint text-[12px] tracking-[0.1em]">個室 ・ 萩</span>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-7 md:-mt-6">
+            <div class="gold-frame room-tex aspect-[16/9] relative overflow-hidden">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 560 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <line x1="0" y1="210" x2="560" y2="210" stroke="#6E665A" stroke-width="1" opacity="0.22"/>
+                <rect x="80" y="70" width="400" height="140" fill="none" stroke="#A8895A" stroke-width="0.75" opacity="0.28"/>
+                <line x1="280" y1="70" x2="280" y2="210" stroke="#6E665A" stroke-width="0.5" opacity="0.16"/>
+              </svg>
+              <span class="absolute left-4 bottom-4 mincho text-tint text-[12px] tracking-[0.1em]">個室 ・ 楓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS（地図・営業時間） ============ -->
+<section id="access" class="bg-sumi text-washi py-[96px] md:py-[144px] relative overflow-hidden">
+  <div class="gold-rule absolute top-0 inset-x-0"></div>
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="reveal">
+      <p class="latin text-brassLt text-sm tracking-[0.24em] uppercase">Access &amp; Hours</p>
+      <h2 class="mincho text-[30px] md:text-[44px] font-semibold tracking-kappo leading-[1.25] mt-4 text-washi">ご案内</h2>
+    </div>
+
+    <div class="gold-rule mt-10 md:mt-14"></div>
+
+    <div class="grid grid-cols-12 gap-6 md:gap-8 mt-12 md:mt-16">
+
+      <!-- 営業情報 -->
+      <div class="col-span-12 md:col-span-5 reveal">
+        <dl class="divide-y divide-[rgba(168,137,90,0.22)]">
+          <div class="py-5 grid grid-cols-3 gap-4">
+            <dt class="mincho text-[14px] text-brassLt tracking-[0.1em]">所在地</dt>
+            <dd class="col-span-2 serif text-[15px] leading-[1.8] text-washi/90">東京都中央区京橋 2-8-3<br>翠月ビル 1F</dd>
+          </div>
+          <div class="py-5 grid grid-cols-3 gap-4">
+            <dt class="mincho text-[14px] text-brassLt tracking-[0.1em]">最寄り</dt>
+            <dd class="col-span-2 serif text-[15px] leading-[1.8] text-washi/90">東京メトロ 京橋駅 2番出口 徒歩3分<br>JR 東京駅 八重洲南口 徒歩8分</dd>
+          </div>
+          <div class="py-5 grid grid-cols-3 gap-4">
+            <dt class="mincho text-[14px] text-brassLt tracking-[0.1em]">営業</dt>
+            <dd class="col-span-2 serif text-[15px] leading-[1.8] text-washi/90">
+              昼 ／ 12:00 – 14:00（最終入店 13:00）<br>
+              夜 ／ 17:30 – 22:00（最終入店 20:00）
+            </dd>
+          </div>
+          <div class="py-5 grid grid-cols-3 gap-4">
+            <dt class="mincho text-[14px] text-brassLt tracking-[0.1em]">定休</dt>
+            <dd class="col-span-2 serif text-[15px] leading-[1.8] text-washi/90">日曜・第二月曜・年末年始</dd>
+          </div>
+          <div class="py-5 grid grid-cols-3 gap-4">
+            <dt class="mincho text-[14px] text-brassLt tracking-[0.1em]">電話</dt>
+            <dd class="col-span-2">
+              <a href="tel:0335550192" class="latin text-[22px] text-brassLt tracking-[0.08em] nav-link inline-block">03-3555-0192</a>
+              <p class="serif text-[12px] text-washi/50 mt-1">受付 11:00 – 21:00</p>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- CSSで描いた抽象区画図 -->
+      <div class="col-span-12 md:col-span-7 reveal">
+        <div class="gold-frame relative overflow-hidden bg-sumi2 aspect-[16/11]">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 700 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true" role="img">
+            <!-- 大通り -->
+            <rect x="0" y="200" width="700" height="56" fill="rgba(168,137,90,0.08)"/>
+            <line x1="0" y1="200" x2="700" y2="200" stroke="#6E665A" stroke-width="1" opacity="0.4"/>
+            <line x1="0" y1="256" x2="700" y2="256" stroke="#6E665A" stroke-width="1" opacity="0.4"/>
+            <!-- 縦道 -->
+            <rect x="430" y="0" width="44" height="480" fill="rgba(168,137,90,0.06)"/>
+            <line x1="430" y1="0" x2="430" y2="480" stroke="#6E665A" stroke-width="1" opacity="0.35"/>
+            <line x1="474" y1="0" x2="474" y2="480" stroke="#6E665A" stroke-width="1" opacity="0.35"/>
+            <!-- 細街路 -->
+            <line x1="0" y1="100" x2="700" y2="100" stroke="#6E665A" stroke-width="0.5" opacity="0.22"/>
+            <line x1="180" y1="0" x2="180" y2="480" stroke="#6E665A" stroke-width="0.5" opacity="0.2"/>
+            <!-- 駅マーク -->
+            <rect x="500" y="300" width="70" height="44" fill="none" stroke="#C2A877" stroke-width="1" opacity="0.5"/>
+            <text x="535" y="327" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="15" fill="#C2A877" opacity="0.8">京橋駅</text>
+            <!-- 店ピン -->
+            <g transform="translate(280,150)">
+              <circle cx="0" cy="0" r="30" fill="none" stroke="#C2A877" stroke-width="1" opacity="0.4"/>
+              <path d="M0 -16 C 10 -16 16 -8 16 0 C 16 10 0 22 0 22 C 0 22 -16 10 -16 0 C -16 -8 -10 -16 0 -16 Z" fill="#A8895A" opacity="0.9"/>
+              <circle cx="0" cy="-1" r="5" fill="#1C1916"/>
+            </g>
+            <text x="280" y="115" text-anchor="middle" class="mincho" font-family="'Shippori Mincho B1', serif" font-size="16" fill="#F4EFE3" opacity="0.95">翠月</text>
+          </svg>
+          <span class="absolute right-5 bottom-4 latin text-brassLt/70 text-[11px] tracking-[0.22em] uppercase">Map &mdash; 京橋</span>
+        </div>
+        <p class="serif text-[12px] text-washi/45 mt-4">※ 提携駐車場のご案内はお電話にて承ります。お車の方は事前にお申し付けください。</p>
+      </div>
+    </div>
+  </div>
+  <div class="gold-rule absolute bottom-0 inset-x-0"></div>
+</section>
+
+<!-- ============ RESERVE CTA ============ -->
+<section id="reserve" class="py-[96px] md:py-[140px]">
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="grid grid-cols-12 gap-6 md:gap-8 items-center">
+      <div class="col-span-12 md:col-span-7 reveal">
+        <p class="latin text-brass text-sm tracking-[0.24em] uppercase">Reservation</p>
+        <h2 class="mincho text-[32px] md:text-[52px] font-semibold tracking-kappo leading-[1.2] mt-4 text-sumi">
+          静かな夜を、<br>ご一緒に。
+        </h2>
+        <p class="serif text-[16px] leading-[1.9] text-tint mt-6 max-w-[38ch]">
+          ご予約はお電話、またはご予約フォームにて。前日までのご連絡をお願いしております。
+          記念日や接待など、ご用途をお伝えいただければ、しつらえを整えてお待ちします。
+        </p>
+      </div>
+      <div class="col-span-12 md:col-span-5 reveal">
+        <div class="gold-frame bg-washi2 p-8 md:p-10">
+          <p class="mincho text-[16px] tracking-kappo text-sumi">ご予約・お問い合わせ</p>
+          <div class="gold-rule mt-5"></div>
+          <a href="tel:0335550192" class="mt-7 flex items-center justify-between group">
+            <span class="serif text-[14px] text-tint">お電話で</span>
+            <span class="latin text-[26px] text-sumi tracking-[0.06em] group-hover:text-brass transition-colors">03-3555-0192</span>
+          </a>
+          <a href="#reserve" class="mt-8 w-full inline-flex items-center justify-center gap-3 px-7 py-4 btn-primary text-[13px]">
+            ご予約フォームへ進む
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <p class="serif text-[12px] text-tint mt-5 leading-[1.7]">受付時間 11:00 – 21:00 ／ 当日のご予約はお電話にて承ります。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-sumi text-washi pt-[64px] pb-12 relative">
+  <div class="gold-rule absolute top-0 inset-x-0"></div>
+  <div class="mx-auto max-w-[1280px] px-6 md:px-10">
+    <div class="grid grid-cols-12 gap-8">
+      <div class="col-span-12 md:col-span-5">
+        <div class="flex items-baseline gap-3">
+          <span class="mincho text-[24px] font-semibold tracking-kappo text-washi">翠月</span>
+          <span class="latin text-brassLt text-sm tracking-[0.22em] uppercase">Kappo Suigetsu</span>
+        </div>
+        <p class="serif text-[14px] leading-[1.9] text-washi/65 mt-5 max-w-[34ch]">
+          季節を映す、静かな一席。<br>京橋にて、夜のおまかせを中心にご用意しております。
+        </p>
+      </div>
+      <nav class="col-span-6 md:col-span-3" aria-label="フッターナビゲーション">
+        <p class="latin text-brassLt text-[12px] tracking-[0.2em] uppercase">Menu</p>
+        <ul class="mt-5 space-y-3 text-[14px] text-washi/75">
+          <li><a href="#concept" class="nav-link">こだわり</a></li>
+          <li><a href="#course"  class="nav-link">お品書き</a></li>
+          <li><a href="#season"  class="nav-link">旬の一品</a></li>
+          <li><a href="#room"    class="nav-link">しつらえ</a></li>
+          <li><a href="#access"  class="nav-link">ご案内</a></li>
+        </ul>
+      </nav>
+      <div class="col-span-6 md:col-span-4">
+        <p class="latin text-brassLt text-[12px] tracking-[0.2em] uppercase">Contact</p>
+        <address class="mt-5 not-italic serif text-[14px] leading-[1.9] text-washi/75">
+          東京都中央区京橋 2-8-3 翠月ビル 1F<br>
+          <a href="tel:0335550192" class="latin text-[18px] text-washi/90 tracking-[0.06em] nav-link inline-block mt-1">03-3555-0192</a>
+        </address>
+      </div>
+    </div>
+    <div class="gold-rule mt-12"></div>
+    <div class="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <p class="serif text-[12px] text-washi/45">&copy; 2026 Kappo Suigetsu. All rights reserved.</p>
+      <p class="latin text-[12px] text-washi/40 tracking-[0.16em]">Kyobashi, Chuo-ku, Tokyo</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== mobile drawer =====
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var drawer = document.getElementById('drawer');
+    var closeBtn = document.getElementById('closeBtn');
+    function open() {
+      drawer.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    btn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    Array.prototype.forEach.call(document.querySelectorAll('.drawer-link'), function (a) {
+      a.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
+
+  // ===== reveal on scroll =====
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(els, function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(els, function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>

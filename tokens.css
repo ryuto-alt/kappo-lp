@@ -1,0 +1,92 @@
+/* ============================================================
+   割烹 沙羅雙樹 — Design Tokens
+   方向性: 漆黒弁柄 — ダーク没入シアター
+   プロトタイプ proto-b.html の実値と完全一致
+   ============================================================ */
+
+:root {
+  /* ===== Color ===== */
+  --color-sumi:         #14110F;  /* 濡羽墨 base（背景・60%） */
+  --color-tan:          #211C18;  /* 炭墨 panel（面・30%） */
+  --color-tint:         #A89A8B;  /* 本文用ティントグレー（tan地5.6:1 / sumi地6.3:1, AA） */
+  --color-tint-muted:   #8C7F72;  /* 装飾ラベル・休記号専用 */
+  --color-bengara:      #9E3B2E;  /* 弁柄 accent（罫線・グロー意匠用, 10%） */
+  --color-bengara-text: #C75A4A;  /* 朱・テキスト用（墨地4.6:1, AA） */
+  --color-kin:          #B6925C;  /* 燻し金 hairline・強調・数値 */
+  --color-kinari:       #E8DECF;  /* 生成り body text・見出し */
+
+  /* ボタン専用色（CTA） */
+  --color-btn-bengara:       #B04434;  /* 弁柄ボタン地 */
+  --color-btn-bengara-hover: #9E3B2E;  /* 弁柄ボタンhover */
+  --color-btn-bengara-text:  #F4EEE2;  /* 弁柄ボタン文字 */
+
+  /* 補助・注記色 */
+  --color-note:    #9A8C7D;  /* 注記・コピーライト（AA確保） */
+  --color-map-bg:  #1B1714;  /* 略地図背景 */
+
+  /* ===== Hairline / Border ===== */
+  --border-hairline:       rgba(182, 146, 92, 0.28);  /* 標準罫線 */
+  --border-kin-strong:     rgba(182, 146, 92, 0.45);  /* ghostボタン枠 */
+  --border-panel:          rgba(182, 146, 92, 0.12);  /* パネル枠 */
+  --border-divider:        rgba(168, 154, 139, 0.12); /* リスト区切り(tint/12) */
+  --hairline:              1px solid rgba(182, 146, 92, 0.28);
+
+  /* ===== Typography ===== */
+  --font-display: "Zen Old Mincho", serif;        /* 見出し・和文ディスプレイ */
+  --font-body:    "Zen Kaku Gothic New", sans-serif; /* 本文 */
+  --font-latin:   "EB Garamond", serif;           /* 欧文ラベル(italic) */
+  --font-num:     "Cormorant", serif;             /* 数値・価格 */
+
+  --weight-light:  300;  /* 本文 */
+  --weight-normal: 400;
+  --weight-medium: 500;  /* 見出し・CTA */
+  --weight-bold:   700;
+  --weight-black:  900;
+
+  --leading-body:    1.72;  /* 本文標準 */
+  --leading-lede:    1.78;  /* 長文リード */
+  --leading-display: 1.18;  /* 大見出し */
+  --leading-tight:   1.25;  /* H2 */
+
+  --tracking-body:    0.02em;
+  --tracking-label:   0.06em;
+  --tracking-display: 0.08em;
+  --tracking-en:      0.04em;  /* 欧文ラベル */
+  --tracking-scroll:  0.30em;  /* 縦書きSCROLL等 */
+
+  /* ===== Spacing（4 / 8 scale） ===== */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;   /* セクション縦余白(モバイル) */
+  --space-32: 128px;
+  --space-40: 160px;  /* セクション縦余白(デスクトップ目安) */
+
+  /* レイアウト */
+  --container-max: 1280px;  /* 標準コンテナ */
+  --container-mid: 1180px;  /* 献立セクション */
+  --container-narrow: 920px;/* 予約セクション */
+  --header-height: 68px;
+
+  /* ===== Radius ===== */
+  --radius-card: 2px;   /* パネル・カード */
+  --radius-btn:  0px;   /* ボタン（角丸なし＝矩形の凛とした構え） */
+
+  /* ===== Shadow ===== */
+  --shadow-reserve-bar: 0 -1px 0 rgba(182,146,92,0.35), 0 -18px 40px rgba(0,0,0,0.55);
+  --shadow-focus-ring:  0 0 0 2px rgba(182,146,92,0.22);
+
+  /* ===== Motion / Transition ===== */
+  --ease-standard: cubic-bezier(.2, .6, .2, 1);   /* reveal */
+  --ease-bar:      cubic-bezier(.2, .7, .2, 1);   /* sticky bar */
+  --transition-base:   200ms ease;   /* a, button, form, hover */
+  --transition-link:   280ms ease;   /* link underline */
+  --transition-reveal: 900ms;        /* スクロール出現 */
+  --transition-bar:    420ms;        /* sticky reserve bar */
+  --duration-topbar:   300ms;        /* topbar背景 */
+}

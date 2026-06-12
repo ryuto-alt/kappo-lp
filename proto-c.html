@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>割烹 苔月 — 季節の静物、白磁の余白に</title>
+<meta name="description" content="深い苔緑と白磁・生成りで構成する、涼やかで凛とした和の割烹。旬の食材を主役に据えた季節のコース。記念日・接待・会食に。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant:ital,wght@0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          washi:    '#F6F3EC',  /* base 60 — 白磁/生成り */
+          rikyu:    '#C9CDBF',  /* sub base 30 — 利休鼠/淡灰緑 */
+          tint:     '#707668',  /* ティントグレー（緑寄り） */
+          moss:     '#4A5D49',  /* accent 10 — 深い苔緑/青竹 */
+          mossdeep: '#3A4A39',
+          copper:   '#9C7A52',  /* 燻し銅 極細罫 */
+          ink:      '#2B302A',  /* 本文 */
+        },
+        fontFamily: {
+          mincho: ['"Shippori Mincho"', 'serif'],
+          sans:   ['"Noto Sans JP"', 'sans-serif'],
+          corm:   ['"Cormorant"', 'serif'],
+        },
+        borderRadius: {
+          DEFAULT: '2px',
+          card: '3px',
+        },
+        maxWidth: {
+          measure: '38ch',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    /* === color tokens === */
+    --color-washi:    #F6F3EC;
+    --color-rikyu:    #C9CDBF;
+    --color-tint:     #707668;
+    --color-moss:     #4A5D49;
+    --color-mossdeep: #3A4A39;
+    --color-copper:   #9C7A52;
+    --color-ink:      #2B302A;
+
+    /* === spacing scale (4/8) === */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-24: 96px;
+    --space-32: 128px;
+    --space-40: 160px;
+
+    /* === type scale (modular 1.2) === */
+    --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
+    --step-0:  clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
+    --step-1:  clamp(1.12rem, 1.05rem + 0.4vw, 1.32rem);
+    --step-2:  clamp(1.4rem, 1.25rem + 0.7vw, 1.78rem);
+    --step-3:  clamp(1.7rem, 1.4rem + 1.2vw, 2.4rem);
+    --step-hero: clamp(2.6rem, 1.6rem + 4.4vw, 5.2rem);
+
+    --radius: 2px;
+    --line-rule: rgba(74, 93, 73, 0.25);
+  }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--color-washi);
+    color: var(--color-ink);
+    font-feature-settings: "palt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: rgba(74,93,73,0.18); color: var(--color-mossdeep); }
+
+  .v-tate {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-feature-settings: "palt" 1;
+  }
+
+  .tracking-wide-jp { letter-spacing: 0.14em; }
+  .tracking-corm    { letter-spacing: 0.04em; }
+
+  .lead-jp { line-height: 1.9; }
+
+  /* paper grain texture — extremely subtle */
+  .grain {
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(74,93,73,0.035) 0, transparent 38%),
+      radial-gradient(circle at 82% 70%, rgba(156,122,82,0.03) 0, transparent 42%);
+  }
+
+  /* fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 700ms cubic-bezier(.22,.61,.36,1), transform 700ms cubic-bezier(.22,.61,.36,1);
+    will-change: opacity, transform;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* link / button focus */
+  a, button { outline: none; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .btn-moss {
+    background: var(--color-moss);
+    color: var(--color-washi);
+    transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+  .btn-moss:hover { background: var(--color-mossdeep); transform: translateY(-1px); box-shadow: 0 8px 24px -12px rgba(58,74,57,0.6); }
+
+  .btn-ghost {
+    border: 1px solid var(--color-moss);
+    color: var(--color-moss);
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .btn-ghost:hover { background: var(--color-moss); color: var(--color-washi); }
+
+  .link-underline {
+    position: relative;
+    transition: color 200ms ease;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute; left: 0; bottom: -3px;
+    width: 100%; height: 1px;
+    background: currentColor;
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 280ms cubic-bezier(.22,.61,.36,1);
+  }
+  .link-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* dish vessel placeholder — celadon glaze */
+  .vessel {
+    background:
+      radial-gradient(120% 90% at 50% 18%, rgba(255,255,255,0.65) 0, transparent 55%),
+      radial-gradient(120% 120% at 50% 100%, rgba(74,93,73,0.20) 0, transparent 60%),
+      linear-gradient(150deg, #DDE2D4 0%, #C9CDBF 48%, #B6BCAB 100%);
+  }
+  .vessel-warm {
+    background:
+      radial-gradient(120% 90% at 50% 18%, rgba(255,255,255,0.6) 0, transparent 55%),
+      linear-gradient(150deg, #E7E0D2 0%, #D8CFBC 55%, #C4B79E 100%);
+  }
+
+  .hairline-copper { border-color: rgba(156,122,82,0.55); }
+  .hairline-moss { border-color: var(--line-rule); }
+
+  .bento-card { transition: transform 300ms cubic-bezier(.22,.61,.36,1), box-shadow 300ms ease; }
+  .bento-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -28px rgba(43,48,42,0.45); }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- ================= HEADER ================= -->
+<header class="fixed top-0 inset-x-0 z-50 transition-all duration-300" id="siteHeader">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <nav class="flex items-center justify-between h-[68px] md:h-[80px]" aria-label="メインナビゲーション">
+      <a href="#hero" class="flex items-baseline gap-3 group" aria-label="割烹 苔月 ホーム">
+        <span class="font-mincho text-[1.35rem] md:text-[1.55rem] text-ink tracking-wide-jp">割烹 苔月</span>
+        <span class="font-corm italic text-tint text-sm hidden sm:inline tracking-corm">kappo Kogetsu</span>
+      </a>
+      <ul class="hidden lg:flex items-center gap-8 text-[0.92rem] text-ink/90 font-light tracking-wide-jp">
+        <li><a href="#concept" class="link-underline">こだわり</a></li>
+        <li><a href="#course" class="link-underline">お品書き</a></li>
+        <li><a href="#season" class="link-underline">旬の静物</a></li>
+        <li><a href="#room" class="link-underline">お部屋</a></li>
+        <li><a href="#access" class="link-underline">ご案内</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <a href="#access" class="hidden md:inline-flex items-center gap-2 btn-ghost rounded px-5 py-2.5 text-[0.88rem] tracking-wide-jp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          アクセス
+        </a>
+        <a href="#reserve" class="hidden md:inline-flex items-center btn-moss rounded px-5 py-2.5 text-[0.88rem] tracking-wide-jp">ご予約・お問い合わせ</a>
+        <button id="menuBtn" class="lg:hidden inline-flex flex-col justify-center items-center w-11 h-11 -mr-2" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="block w-6 h-px bg-ink transition-all duration-300" data-bar="1"></span>
+          <span class="block w-6 h-px bg-ink mt-1.5 transition-all duration-300" data-bar="2"></span>
+          <span class="block w-6 h-px bg-ink mt-1.5 transition-all duration-300" data-bar="3"></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- mobile menu -->
+<div id="mobileMenu" class="fixed inset-0 z-40 bg-washi/98 backdrop-blur-sm translate-x-full transition-transform duration-400 lg:hidden grain" aria-hidden="true">
+  <div class="flex flex-col h-full px-8 pt-28 pb-12">
+    <ul class="flex flex-col gap-7 font-mincho text-2xl text-ink tracking-wide-jp">
+      <li><a href="#concept" class="mm-link inline-flex items-baseline gap-3"><span class="font-corm italic text-copper text-sm">01</span>こだわり</a></li>
+      <li><a href="#course" class="mm-link inline-flex items-baseline gap-3"><span class="font-corm italic text-copper text-sm">02</span>お品書き</a></li>
+      <li><a href="#season" class="mm-link inline-flex items-baseline gap-3"><span class="font-corm italic text-copper text-sm">03</span>旬の静物</a></li>
+      <li><a href="#room" class="mm-link inline-flex items-baseline gap-3"><span class="font-corm italic text-copper text-sm">04</span>お部屋</a></li>
+      <li><a href="#access" class="mm-link inline-flex items-baseline gap-3"><span class="font-corm italic text-copper text-sm">05</span>ご案内</a></li>
+    </ul>
+    <div class="mt-auto flex flex-col gap-3">
+      <a href="#reserve" class="mm-link btn-moss rounded px-6 py-4 text-center tracking-wide-jp">ご予約・お問い合わせ</a>
+      <p class="text-tint text-sm text-center font-light tracking-wide-jp">予約専用 03-3456-0289 ／ 17:30 - 22:00</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section id="hero" class="relative overflow-hidden grain">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-12 gap-y-12 lg:gap-x-8 pt-28 md:pt-36 lg:pt-44 pb-20 md:pb-28 items-center min-h-[88vh]">
+
+      <!-- left: vertical title -->
+      <div class="col-span-12 lg:col-span-5 flex lg:block items-start gap-8">
+        <div class="reveal">
+          <p class="font-corm italic text-copper text-lg md:text-xl tracking-corm mb-6">Early Summer — 立夏</p>
+          <div class="flex items-start gap-5 lg:gap-7">
+            <h1 class="v-tate font-mincho font-medium text-ink tracking-wide-jp leading-[1.18]" style="font-size: var(--step-hero); height: clamp(8.5rem, 18vw, 16rem);">
+              季節を、<span class="text-moss">器</span>に
+            </h1>
+            <div class="v-tate font-mincho text-tint text-lg md:text-xl tracking-wide-jp leading-loose pt-2" style="height: clamp(7rem, 14vw, 12rem);">
+              白磁の余白に、旬を一滴
+            </div>
+          </div>
+          <p class="mt-10 max-w-measure lead-jp font-light text-ink/85 text-[var(--step-0)] tracking-wide-jp">
+            墨や漆の重さではなく、青磁と生成りの涼やかさで。<br>
+            その日の畑と海から届いた素材を、引き算の手で。<br>
+            銀座の喧噪を一枚の障子で隔てた、八席の静けさ。
+          </p>
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+            <a href="#access" class="inline-flex items-center gap-2 btn-moss rounded px-7 py-3.5 text-[0.95rem] tracking-wide-jp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              店へのご案内を見る
+            </a>
+            <a href="#course" class="link-underline inline-flex items-center gap-2 text-moss text-[0.95rem] tracking-wide-jp">
+              お品書きを見る
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: seasonal vessel -->
+      <div class="col-span-12 lg:col-span-7 lg:pl-8">
+        <div class="reveal relative" style="transition-delay:120ms">
+          <!-- frame -->
+          <div class="relative aspect-[4/5] sm:aspect-[5/5] lg:aspect-[5/6] max-w-[520px] mx-auto lg:mr-0">
+            <div class="absolute inset-0 vessel rounded-card border hairline-copper"></div>
+            <!-- celadon plate -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 480" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="plate" cx="50%" cy="46%" r="46%">
+                  <stop offset="0%" stop-color="#EEF1E8"/>
+                  <stop offset="62%" stop-color="#DCE1D5"/>
+                  <stop offset="100%" stop-color="#BFC6B5"/>
+                </radialGradient>
+              </defs>
+              <circle cx="200" cy="232" r="148" fill="url(#plate)"/>
+              <circle cx="200" cy="232" r="148" stroke="#9C7A52" stroke-opacity="0.4" stroke-width="1"/>
+              <circle cx="200" cy="232" r="112" stroke="#4A5D49" stroke-opacity="0.28" stroke-width="1"/>
+              <!-- branch + leaves: seasonal mark -->
+              <g stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.92">
+                <path d="M150 300 C 190 250, 215 215, 255 178"/>
+                <path d="M198 246 C 178 232, 165 232, 150 240"/>
+                <path d="M150 240 C 156 226, 160 214, 156 200" />
+                <path d="M150 240 C 138 230, 128 226, 116 226" />
+                <path d="M222 210 C 204 200, 192 202, 180 212"/>
+                <path d="M180 212 C 186 196, 188 184, 182 172"/>
+                <path d="M180 212 C 168 206, 158 206, 148 210"/>
+                <path d="M250 182 C 234 174, 222 176, 212 186"/>
+                <path d="M212 186 C 216 170, 216 158, 208 148"/>
+              </g>
+              <!-- a single plum-colored accent dot -->
+              <circle cx="170" cy="280" r="5.5" fill="#9C7A52" opacity="0.85"/>
+              <circle cx="232" cy="262" r="4" fill="#4A5D49" opacity="0.7"/>
+            </svg>
+            <!-- caption chip -->
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 lg:left-8 lg:translate-x-0 bg-washi border hairline-moss rounded px-5 py-3 shadow-sm">
+              <p class="font-corm italic text-copper text-sm tracking-corm">le plat de la saison</p>
+              <p class="font-mincho text-ink text-[0.95rem] tracking-wide-jp mt-0.5">本日の先付 — 蓴菜と利尻昆布の出汁</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- thin moss baseline -->
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="border-t hairline-moss"></div>
+  </div>
+</section>
+
+<!-- ================= CONCEPT ================= -->
+<section id="concept" class="py-24 md:py-32 grain">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-12 gap-y-12 lg:gap-x-12">
+      <div class="col-span-12 lg:col-span-4 reveal">
+        <p class="font-corm italic text-copper text-lg tracking-corm mb-4">Philosophy — 主人の手</p>
+        <h2 class="font-mincho text-ink tracking-wide-jp leading-[1.4]" style="font-size: var(--step-3)">
+          足すのではなく、<br>そぎ落として<br>季節を立てる。
+        </h2>
+        <!-- grass mark -->
+        <svg class="mt-8 w-24 h-12" viewBox="0 0 120 60" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M14 56 C 16 38, 20 26, 30 16"/>
+          <path d="M30 56 C 32 36, 38 24, 50 14"/>
+          <path d="M48 56 C 50 40, 52 30, 58 22"/>
+          <path d="M66 56 C 68 36, 76 26, 90 18"/>
+          <path d="M88 56 C 90 42, 94 34, 104 28"/>
+        </svg>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7 lg:col-start-6 reveal" style="transition-delay:100ms">
+        <div class="max-w-measure lead-jp font-light text-ink text-[var(--step-0)] tracking-wide-jp space-y-7">
+          <p>
+            割烹 苔月の献立は、毎朝の市場で決まります。豊洲で目利きした白身、契約する三浦の農家から届く朝採りの青菜。その日いちばん良い素材だけを、もっとも素直なかたちで皿にのせる。それが主人・宮本一徹の流儀です。
+          </p>
+          <p>
+            濃い味で隠さず、出汁の輪郭で素材を語らせる。だから当店のコースは、立夏には立夏の、白露には白露の貌を持ちます。同じ献立は、一年を通して二度とありません。
+          </p>
+          <blockquote class="border-l-2 hairline-moss pl-6 py-1">
+            <p class="font-mincho text-ink/90 text-[var(--step-1)] leading-relaxed tracking-wide-jp">「料理は引き算。器の余白こそ、季節の置き場所です。」</p>
+            <footer class="mt-3 text-tint text-sm tracking-wide-jp font-light">— 主人 宮本 一徹（東京・神田の名店にて十八年研鑽）</footer>
+          </blockquote>
+        </div>
+
+        <!-- three quiet figures -->
+        <div class="mt-14 grid grid-cols-3 gap-6 border-t hairline-moss pt-10">
+          <div>
+            <p class="font-corm text-moss text-3xl md:text-4xl tracking-corm">8</p>
+            <p class="text-tint text-sm font-light tracking-wide-jp mt-1">席のみのカウンターと個室</p>
+          </div>
+          <div>
+            <p class="font-corm text-moss text-3xl md:text-4xl tracking-corm">24</p>
+            <p class="text-tint text-sm font-light tracking-wide-jp mt-1">節気ごとに替わる献立</p>
+          </div>
+          <div>
+            <p class="font-corm text-moss text-3xl md:text-4xl tracking-corm">'09</p>
+            <p class="text-tint text-sm font-light tracking-wide-jp mt-1">開店以来の季節の積み重ね</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COURSE ================= -->
+<section id="course" class="py-24 md:py-32" style="background: linear-gradient(180deg, #F6F3EC 0%, #EEECE2 100%);">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="reveal mb-16 md:mb-20 max-w-2xl">
+      <p class="font-corm italic text-copper text-lg tracking-corm mb-4">À la carte du jour — お品書き</p>
+      <h2 class="font-mincho text-ink tracking-wide-jp leading-tight" style="font-size: var(--step-3)">昼と夜、二つの間（あわい）</h2>
+      <p class="mt-5 max-w-measure lead-jp font-light text-ink/85 tracking-wide-jp text-[var(--step-0)]">
+        いずれもおまかせの季節コース。仕入れにより一品ずつ献立が替わります。アレルギー・苦手な食材はご予約時にお申し付けください。
+      </p>
+    </div>
+
+    <div class="grid grid-cols-12 gap-8 lg:gap-12">
+      <!-- 昼 -->
+      <div class="col-span-12 lg:col-span-6 reveal">
+        <article class="h-full bg-washi border hairline-moss rounded-card p-8 md:p-10 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-rikyu"></div>
+          <div class="flex items-start justify-between gap-4 mb-8">
+            <div>
+              <p class="font-corm italic text-copper tracking-corm">Déjeuner</p>
+              <h3 class="font-mincho text-ink text-[var(--step-2)] tracking-wide-jp mt-1">昼の献立 — 涼</h3>
+            </div>
+            <span class="v-tate font-mincho text-tint text-sm tracking-wide-jp border-l hairline-copper pl-2 py-1 hidden sm:block">六品立て</span>
+          </div>
+          <ul class="space-y-5 lead-jp font-light text-ink tracking-wide-jp text-[0.98rem]">
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">i.</span><span>先付 ・ 蓴菜と順才の冷やし鉢</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">ii.</span><span>椀物 ・ 鱧と冬瓜の葛仕立て</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">iii.</span><span>向付 ・ 明石の真鯛 昆布〆</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">iv.</span><span>焼物 ・ 鮎の塩焼き 蓼酢</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">v.</span><span>食事 ・ 新生姜の炊き込みご飯</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">vi.</span><span>水菓子 ・ 自家製 抹茶のわらび餅</span></li>
+          </ul>
+          <div class="mt-10 pt-6 border-t hairline-moss flex items-end justify-between">
+            <div>
+              <p class="text-tint text-sm font-light tracking-wide-jp">税・サービス料込</p>
+              <p class="font-mincho text-ink text-[var(--step-2)] tracking-wide-jp">8,800<span class="text-base ml-1">円</span></p>
+            </div>
+            <p class="text-tint text-sm font-light tracking-wide-jp text-right">12:00 - 14:00<br>（土日祝のみ）</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 夜 -->
+      <div class="col-span-12 lg:col-span-6 reveal" style="transition-delay:100ms">
+        <article class="h-full bg-mossdeep text-washi border hairline-copper rounded-card p-8 md:p-10 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-copper/70"></div>
+          <!-- faint leaf mark -->
+          <svg class="absolute -right-6 -bottom-6 w-44 h-44 opacity-[0.12]" viewBox="0 0 120 120" fill="none" stroke="#F6F3EC" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M30 96 C 50 60, 70 40, 96 24"/>
+            <path d="M58 60 C 44 52, 34 52, 24 58"/>
+            <path d="M62 54 C 56 40, 56 30, 62 20"/>
+            <path d="M78 42 C 64 36, 54 38, 46 46"/>
+          </svg>
+          <div class="flex items-start justify-between gap-4 mb-8 relative">
+            <div>
+              <p class="font-corm italic text-copper tracking-corm">Dîner</p>
+              <h3 class="font-mincho text-washi text-[var(--step-2)] tracking-wide-jp mt-1">夜の献立 — 月</h3>
+            </div>
+            <span class="v-tate font-mincho text-washi/70 text-sm tracking-wide-jp border-l border-copper/50 pl-2 py-1 hidden sm:block">九品立て</span>
+          </div>
+          <ul class="space-y-5 lead-jp font-light text-washi/95 tracking-wide-jp text-[0.98rem] relative">
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">i.</span><span>八寸 ・ 季節の彩り 五種盛り</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">ii.</span><span>椀物 ・ 鱧の落とし 梅肉と青柚子</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">iii.</span><span>お造り ・ 旬の三種 海の便りより</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">iv.</span><span>焼物 ・ のどぐろ 若狭焼き</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">v.</span><span>煮物 ・ 賀茂茄子と海老の翡翠煮</span></li>
+            <li class="flex gap-4"><span class="font-corm text-copper text-sm pt-1 w-6 shrink-0">…</span><span>食事・留椀・水菓子 まで全九品</span></li>
+          </ul>
+          <div class="mt-10 pt-6 border-t border-copper/40 flex items-end justify-between relative">
+            <div>
+              <p class="text-washi/60 text-sm font-light tracking-wide-jp">税・サービス料込</p>
+              <p class="font-mincho text-washi text-[var(--step-2)] tracking-wide-jp">18,700<span class="text-base ml-1">円</span></p>
+            </div>
+            <p class="text-washi/60 text-sm font-light tracking-wide-jp text-right">17:30 - 22:00<br>（最終入店 20:00）</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <p class="reveal mt-10 text-tint text-sm font-light tracking-wide-jp text-center">
+      ＊ 接待・記念日にはお祝いの一品やお花のご用意も承ります。ご予算に応じた特別献立もご相談ください。
+    </p>
+  </div>
+</section>
+
+<!-- ================= SEASON (bento gallery) ================= -->
+<section id="season" class="py-24 md:py-32 grain" style="background: linear-gradient(180deg, #EEECE2 0%, #E4E6DB 100%);">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="reveal mb-14 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="max-w-xl">
+        <p class="font-corm italic text-copper text-lg tracking-corm mb-4">Nature morte — 旬の静物</p>
+        <h2 class="font-mincho text-ink tracking-wide-jp leading-tight" style="font-size: var(--step-3)">いまだけの、五つの貌</h2>
+      </div>
+      <p class="max-w-measure lead-jp font-light text-ink/80 tracking-wide-jp text-[0.96rem]">
+        立夏の頃、当店の器に置かれる素材たち。季節が移れば、この静物も静かに入れ替わります。
+      </p>
+    </div>
+
+    <!-- asymmetric bento -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 auto-rows-[150px] md:auto-rows-[190px]">
+
+      <!-- big feature -->
+      <div class="reveal bento-card col-span-2 row-span-2 relative rounded-card overflow-hidden border hairline-moss vessel">
+        <svg class="absolute inset-0 w-full h-full opacity-90" viewBox="0 0 400 400" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <g stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.85">
+            <path d="M120 320 C 170 250, 210 200, 280 140"/>
+            <path d="M198 248 C 176 232, 158 232, 140 244"/>
+            <path d="M230 208 C 210 196, 194 198, 180 210"/>
+            <path d="M180 210 C 188 190, 190 174, 182 158"/>
+            <path d="M262 160 C 244 150, 228 152, 216 164"/>
+          </g>
+          <circle cx="160" cy="300" r="7" fill="#9C7A52" opacity="0.8"/>
+          <circle cx="244" cy="190" r="5" fill="#4A5D49" opacity="0.7"/>
+        </svg>
+        <div class="absolute inset-0 flex flex-col justify-end p-7 md:p-8 bg-gradient-to-t from-mossdeep/45 via-transparent to-transparent">
+          <p class="font-corm italic text-washi/90 text-sm tracking-corm">young sweetfish</p>
+          <h3 class="font-mincho text-washi text-[var(--step-2)] tracking-wide-jp">天然 稚鮎</h3>
+          <p class="text-washi/85 text-sm font-light tracking-wide-jp mt-1 lead-jp">和歌山・日高川。苦みと香りの最も澄む走りの一尾を、炭火でふわりと。</p>
+        </div>
+      </div>
+
+      <!-- tall -->
+      <div class="reveal bento-card row-span-2 relative rounded-card overflow-hidden border hairline-moss vessel-warm" style="transition-delay:80ms">
+        <svg class="absolute inset-0 w-full h-full opacity-80" viewBox="0 0 200 400" fill="none" stroke="#9C7A52" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <path d="M100 360 C 100 280, 96 220, 84 180"/>
+          <path d="M84 180 C 70 150, 60 130, 64 104"/>
+          <path d="M100 300 C 116 270, 130 252, 150 240"/>
+          <path d="M100 240 C 84 214, 76 198, 78 174"/>
+        </svg>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-ink/30 to-transparent">
+          <p class="font-corm italic text-ink/70 text-xs tracking-corm">first ginger</p>
+          <h3 class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">新生姜</h3>
+          <p class="text-ink/70 text-xs font-light tracking-wide-jp mt-1 lead-jp">高知。炊き込みの香りづけに。</p>
+        </div>
+      </div>
+
+      <!-- small 1 -->
+      <div class="reveal bento-card relative rounded-card overflow-hidden border hairline-moss" style="background: linear-gradient(140deg,#DDE2D4,#C2C8B6); transition-delay:120ms">
+        <svg class="absolute right-3 top-3 w-12 h-12 opacity-70" viewBox="0 0 60 60" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M14 50 C 24 34, 34 24, 50 14"/><path d="M32 30 C 24 24, 18 24, 12 28"/><path d="M34 26 C 30 18, 30 12, 34 6"/></svg>
+        <div class="absolute inset-0 flex flex-col justify-end p-5">
+          <h3 class="font-mincho text-ink text-[1.02rem] tracking-wide-jp">蓴菜（じゅんさい）</h3>
+          <p class="text-tint text-xs font-light tracking-wide-jp mt-0.5">秋田・三種町</p>
+        </div>
+      </div>
+
+      <!-- small 2 -->
+      <div class="reveal bento-card relative rounded-card overflow-hidden border hairline-moss" style="background: linear-gradient(140deg,#E7E0D2,#CFC4AC); transition-delay:160ms">
+        <svg class="absolute right-3 top-3 w-12 h-12 opacity-70" viewBox="0 0 60 60" fill="none" stroke="#9C7A52" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="30" cy="30" r="14"/><path d="M30 16 C 36 22, 36 38, 30 44"/><path d="M16 30 H 44"/></svg>
+        <div class="absolute inset-0 flex flex-col justify-end p-5">
+          <h3 class="font-mincho text-ink text-[1.02rem] tracking-wide-jp">賀茂茄子</h3>
+          <p class="text-tint text-xs font-light tracking-wide-jp mt-0.5">京都・上賀茂</p>
+        </div>
+      </div>
+
+      <!-- wide bottom -->
+      <div class="reveal bento-card col-span-2 relative rounded-card overflow-hidden border hairline-moss vessel" style="transition-delay:200ms">
+        <svg class="absolute inset-0 w-full h-full opacity-85" viewBox="0 0 400 200" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <path d="M40 170 C 120 120, 200 110, 360 70"/>
+          <path d="M160 128 C 150 110, 150 96, 158 84"/>
+          <path d="M230 108 C 222 90, 224 76, 234 66"/>
+          <path d="M300 86 C 294 70, 296 58, 306 50"/>
+        </svg>
+        <div class="absolute inset-0 flex flex-col justify-end p-6 md:p-7 bg-gradient-to-r from-washi/55 to-transparent">
+          <p class="font-corm italic text-ink/70 text-xs tracking-corm">conger pike</p>
+          <h3 class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">淡路の鱧</h3>
+          <p class="text-ink/70 text-sm font-light tracking-wide-jp mt-1 lead-jp">骨切りした身を椀に落とし、梅と青柚子で。夏の走りを告げる一椀。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROOM ================= -->
+<section id="room" class="py-24 md:py-32">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-12 gap-y-12 lg:gap-x-12 items-center">
+
+      <!-- room vessel -->
+      <div class="col-span-12 lg:col-span-7 reveal order-2 lg:order-1">
+        <div class="relative">
+          <div class="aspect-[16/11] rounded-card overflow-hidden border hairline-copper relative" style="background: linear-gradient(160deg, #DCE1D5 0%, #C9CDBF 60%, #B4BAA8 100%);">
+            <!-- abstract room: shoji + counter -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 640 440" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+              <!-- floor light pool -->
+              <ellipse cx="320" cy="370" rx="260" ry="50" fill="#F6F3EC" opacity="0.35"/>
+              <!-- shoji panels -->
+              <g stroke="#9C7A52" stroke-opacity="0.5" stroke-width="1.2">
+                <rect x="60" y="50" width="130" height="250" fill="#EFEDE3" fill-opacity="0.55"/>
+                <rect x="60" y="50" width="130" height="250"/>
+                <line x1="60" y1="133" x2="190" y2="133"/><line x1="60" y1="216" x2="190" y2="216"/>
+                <line x1="125" y1="50" x2="125" y2="300"/>
+                <rect x="200" y="50" width="130" height="250" fill="#F2F0E6" fill-opacity="0.6"/>
+                <rect x="200" y="50" width="130" height="250"/>
+                <line x1="200" y1="133" x2="330" y2="133"/><line x1="200" y1="216" x2="330" y2="216"/>
+                <line x1="265" y1="50" x2="265" y2="300"/>
+              </g>
+              <!-- hinoki counter -->
+              <rect x="40" y="320" width="560" height="22" fill="#E7E0D2"/>
+              <rect x="40" y="320" width="560" height="22" stroke="#9C7A52" stroke-opacity="0.4"/>
+              <rect x="40" y="342" width="560" height="40" fill="#D8CFBC"/>
+              <!-- ikebana branch on counter -->
+              <g stroke="#4A5D49" stroke-width="1.6" stroke-linecap="round" fill="none">
+                <path d="M470 320 C 478 280, 500 250, 540 226"/>
+                <path d="M504 268 C 490 258, 478 258, 466 264"/>
+                <path d="M520 250 C 514 234, 514 222, 522 210"/>
+              </g>
+              <circle cx="540" cy="226" r="5" fill="#9C7A52" opacity="0.85"/>
+              <!-- hanging light -->
+              <line x1="430" y1="40" x2="430" y2="92" stroke="#9C7A52" stroke-opacity="0.5"/>
+              <ellipse cx="430" cy="102" rx="26" ry="14" fill="#F6F3EC" opacity="0.85"/>
+            </svg>
+          </div>
+          <!-- private room chip -->
+          <div class="absolute -bottom-6 right-4 lg:right-8 bg-washi border hairline-moss rounded px-5 py-3 shadow-sm max-w-[230px]">
+            <p class="font-corm italic text-copper text-xs tracking-corm">private room</p>
+            <p class="font-mincho text-ink text-[0.95rem] tracking-wide-jp mt-0.5">完全個室「青磁の間」 ／ 二名〜六名</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- text -->
+      <div class="col-span-12 lg:col-span-5 reveal order-1 lg:order-2" style="transition-delay:100ms">
+        <p class="font-corm italic text-copper text-lg tracking-corm mb-4">Espace — 静かな間</p>
+        <h2 class="font-mincho text-ink tracking-wide-jp leading-[1.4]" style="font-size: var(--step-3)">
+          声をひそめずとも、<br>大切な話ができる。
+        </h2>
+        <div class="mt-7 max-w-measure lead-jp font-light text-ink text-[var(--step-0)] tracking-wide-jp space-y-6">
+          <p>
+            檜のカウンター八席と、障子で仕切る完全個室を二室。隣席を気にせず、接待や顔合わせの大切なひとときを、白磁のような静けさの中でお過ごしいただけます。
+          </p>
+          <p>
+            個室「青磁の間」は二〜六名様まで。床の間には季節の花を一輪。記念日には、主人がしつらえる祝い肴とともに。
+          </p>
+        </div>
+        <ul class="mt-9 space-y-4">
+          <li class="flex items-start gap-3 text-ink/90 font-light tracking-wide-jp text-[0.96rem]">
+            <svg class="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            接待・会食に適した完全個室（チャージ無料）
+          </li>
+          <li class="flex items-start gap-3 text-ink/90 font-light tracking-wide-jp text-[0.96rem]">
+            <svg class="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            記念日のメッセージプレート・お花の手配
+          </li>
+          <li class="flex items-start gap-3 text-ink/90 font-light tracking-wide-jp text-[0.96rem]">
+            <svg class="mt-0.5 shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            ソムリエ厳選の日本酒・自然派ワインのペアリング
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACCESS ================= -->
+<section id="access" class="py-24 md:py-32" style="background: linear-gradient(180deg, #E4E6DB 0%, #D6DACB 100%);">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12">
+    <div class="reveal mb-14 md:mb-16 max-w-2xl">
+      <p class="font-corm italic text-copper text-lg tracking-corm mb-4">Accès & Heures — ご案内</p>
+      <h2 class="font-mincho text-ink tracking-wide-jp leading-tight" style="font-size: var(--step-3)">店までの道のり</h2>
+    </div>
+
+    <div class="grid grid-cols-12 gap-8 lg:gap-12">
+      <!-- info -->
+      <div class="col-span-12 lg:col-span-5 reveal">
+        <dl class="space-y-7">
+          <div class="flex gap-5 border-b hairline-moss pb-6">
+            <svg class="mt-1 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <dt class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">所在地</dt>
+              <dd class="mt-2 lead-jp font-light text-ink/85 tracking-wide-jp text-[0.96rem]">
+                〒104-0061 東京都中央区銀座六丁目8-3<br>銀座しずく館 2F
+              </dd>
+            </div>
+          </div>
+          <div class="flex gap-5 border-b hairline-moss pb-6">
+            <svg class="mt-1 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div>
+              <dt class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">営業時間</dt>
+              <dd class="mt-2 lead-jp font-light text-ink/85 tracking-wide-jp text-[0.96rem]">
+                昼 12:00 - 14:00（土日祝のみ）<br>
+                夜 17:30 - 22:00（最終入店 20:00）<br>
+                <span class="text-tint">定休日 ／ 日曜・第二月曜</span>
+              </dd>
+            </div>
+          </div>
+          <div class="flex gap-5 border-b hairline-moss pb-6">
+            <svg class="mt-1 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H5.2L4 18.5V4Z"/><path d="M8 9h8M8 12h5"/></svg>
+            <div>
+              <dt class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">最寄り</dt>
+              <dd class="mt-2 lead-jp font-light text-ink/85 tracking-wide-jp text-[0.96rem]">
+                東京メトロ 銀座駅 A2出口 徒歩4分<br>
+                都営 東銀座駅 徒歩6分
+              </dd>
+            </div>
+          </div>
+          <div class="flex gap-5">
+            <svg class="mt-1 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>
+            <div>
+              <dt class="font-mincho text-ink text-[var(--step-1)] tracking-wide-jp">ご予約</dt>
+              <dd class="mt-2 lead-jp font-light text-ink/85 tracking-wide-jp text-[0.96rem]">
+                予約専用 <a href="tel:0334560289" class="link-underline text-moss">03-3456-0289</a><br>
+                <span class="text-tint">受付 11:00 - 21:00（定休日除く）</span>
+              </dd>
+            </div>
+          </div>
+        </dl>
+      </div>
+
+      <!-- abstract map -->
+      <div class="col-span-12 lg:col-span-7 reveal" style="transition-delay:100ms">
+        <div class="rounded-card overflow-hidden border hairline-copper relative aspect-[16/11]" style="background: #D2D7C7;">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 720 500" fill="none" aria-hidden="true" role="img" preserveAspectRatio="xMidYMid slice">
+            <title>店周辺の略地図</title>
+            <!-- blocks -->
+            <g fill="#C9CDBF">
+              <rect x="0" y="0" width="320" height="190"/>
+              <rect x="400" y="0" width="320" height="150"/>
+              <rect x="0" y="250" width="280" height="250"/>
+              <rect x="360" y="210" width="160" height="130"/>
+              <rect x="560" y="200" width="160" height="180"/>
+              <rect x="360" y="400" width="360" height="100"/>
+            </g>
+            <!-- roads -->
+            <g stroke="#F6F3EC" stroke-width="26" opacity="0.9">
+              <line x1="350" y1="-20" x2="350" y2="520"/>
+              <line x1="-20" y1="220" x2="740" y2="220"/>
+              <line x1="-20" y1="375" x2="740" y2="375"/>
+              <line x1="540" y1="-20" x2="540" y2="520"/>
+            </g>
+            <!-- copper accent road -->
+            <line x1="-20" y1="220" x2="740" y2="220" stroke="#9C7A52" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="2 10"/>
+            <!-- station marker -->
+            <g>
+              <rect x="556" y="338" width="38" height="38" rx="3" fill="#707668"/>
+              <text x="575" y="362" font-family="serif" font-size="20" fill="#F6F3EC" text-anchor="middle">駅</text>
+            </g>
+            <text x="575" y="398" font-family="'Noto Sans JP',sans-serif" font-size="15" fill="#3A4A39" text-anchor="middle">銀座駅 A2</text>
+            <!-- shop pin -->
+            <g>
+              <circle cx="360" cy="232" r="40" fill="#4A5D49" opacity="0.12"/>
+              <path d="M360 200 a18 18 0 0 1 18 18 c0 13 -18 30 -18 30 s-18 -17 -18 -30 a18 18 0 0 1 18 -18 Z" fill="#4A5D49"/>
+              <circle cx="360" cy="218" r="6.5" fill="#F6F3EC"/>
+            </g>
+            <text x="360" y="278" font-family="'Shippori Mincho',serif" font-size="17" fill="#2B302A" text-anchor="middle">割烹 苔月</text>
+            <!-- leaf mark -->
+            <g stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7">
+              <path d="M60 440 C 80 410, 100 392, 130 378"/>
+              <path d="M92 410 C 80 402, 70 402, 60 408"/>
+            </g>
+          </svg>
+          <div class="absolute bottom-4 left-4 bg-washi/95 border hairline-moss rounded px-4 py-2.5">
+            <p class="text-tint text-xs font-light tracking-wide-jp">＊ 略図です。詳しい道順はお電話にてご案内いたします</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESERVE CTA ================= -->
+<section id="reserve" class="relative overflow-hidden bg-mossdeep text-washi grain">
+  <!-- big background leaf -->
+  <svg class="absolute -right-16 -top-16 w-[420px] h-[420px] opacity-[0.08] pointer-events-none" viewBox="0 0 200 200" fill="none" stroke="#F6F3EC" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
+    <path d="M40 170 C 80 110, 120 70, 170 36"/>
+    <path d="M96 104 C 78 92, 64 92, 50 100"/>
+    <path d="M104 96 C 96 76, 96 60, 106 44"/>
+    <path d="M130 70 C 112 60, 96 62, 84 74"/>
+    <path d="M150 52 C 138 40, 124 40, 112 48"/>
+  </svg>
+
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12 py-24 md:py-32 relative">
+    <div class="max-w-2xl reveal">
+      <p class="font-corm italic text-copper text-lg tracking-corm mb-5">Réservation — ご予約・お問い合わせ</p>
+      <h2 class="font-mincho text-washi tracking-wide-jp leading-[1.35]" style="font-size: var(--step-3)">
+        いまの季節を、<br>器ごとお出しします。
+      </h2>
+      <p class="mt-7 max-w-measure lead-jp font-light text-washi/85 tracking-wide-jp text-[var(--step-0)]">
+        まずは一度、白磁の静けさへ。記念日も、接待も、何でもない夜も。お席に限りがございますので、ご来店はお電話またはフォームより予めご予約ください。
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
+        <a href="tel:0334560289" class="inline-flex items-center justify-center gap-3 bg-washi text-mossdeep rounded px-7 py-4 tracking-wide-jp font-medium transition hover:bg-white hover:-translate-y-0.5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>
+          03-3456-0289 へ電話
+        </a>
+        <a href="#" class="inline-flex items-center justify-center gap-3 border border-washi/50 text-washi rounded px-7 py-4 tracking-wide-jp transition hover:bg-washi/10">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          予約フォームから
+        </a>
+      </div>
+      <p class="mt-7 text-washi/55 text-sm font-light tracking-wide-jp">
+        受付 11:00 - 21:00（定休日除く）／ 当日のご予約は満席の場合がございます
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-washi text-ink grain">
+  <div class="mx-auto max-w-[1280px] px-5 sm:px-8 lg:px-12 py-16 md:py-20">
+    <div class="grid grid-cols-12 gap-y-10 lg:gap-x-12">
+      <div class="col-span-12 lg:col-span-5">
+        <div class="flex items-baseline gap-3">
+          <span class="font-mincho text-[1.5rem] text-ink tracking-wide-jp">割烹 苔月</span>
+          <span class="font-corm italic text-tint text-sm tracking-corm">kappo Kogetsu</span>
+        </div>
+        <!-- branch mark -->
+        <svg class="mt-5 w-28 h-12" viewBox="0 0 140 50" fill="none" stroke="#4A5D49" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" opacity="0.85">
+          <path d="M8 44 C 40 30, 70 22, 132 10"/>
+          <path d="M52 28 C 44 18, 44 12, 50 6"/>
+          <path d="M84 20 C 78 12, 78 6, 84 2"/>
+          <circle cx="120" cy="13" r="3.5" fill="#9C7A52" stroke="none"/>
+        </svg>
+        <p class="mt-6 max-w-measure lead-jp font-light text-tint text-sm tracking-wide-jp">
+          青磁と白磁の余白に、旬を一滴。銀座にひらく八席の季節割烹。
+        </p>
+      </div>
+
+      <nav class="col-span-6 lg:col-span-3" aria-label="フッターナビゲーション">
+        <p class="font-corm italic text-copper text-sm tracking-corm mb-5">Menu</p>
+        <ul class="space-y-3 font-light text-ink/80 tracking-wide-jp text-[0.92rem]">
+          <li><a href="#concept" class="link-underline">こだわり</a></li>
+          <li><a href="#course" class="link-underline">お品書き（昼・夜）</a></li>
+          <li><a href="#season" class="link-underline">旬の静物</a></li>
+          <li><a href="#room" class="link-underline">お部屋・個室</a></li>
+          <li><a href="#access" class="link-underline">アクセス・営業時間</a></li>
+        </ul>
+      </nav>
+
+      <div class="col-span-6 lg:col-span-4">
+        <p class="font-corm italic text-copper text-sm tracking-corm mb-5">Contact</p>
+        <address class="not-italic space-y-3 font-light text-ink/80 tracking-wide-jp text-[0.92rem] lead-jp">
+          <p>〒104-0061<br>東京都中央区銀座六丁目8-3<br>銀座しずく館 2F</p>
+          <p>予約専用 <a href="tel:0334560289" class="link-underline text-moss">03-3456-0289</a></p>
+          <p class="text-tint">夜 17:30 - 22:00 ／ 定休 日・第二月曜</p>
+        </address>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-7 border-t hairline-moss flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <p class="text-tint text-xs font-light tracking-wide-jp">© 2026 割烹 苔月 — Kappo Kogetsu. All rights reserved.</p>
+      <ul class="flex gap-6 text-tint text-xs font-light tracking-wide-jp">
+        <li><a href="#" class="link-underline">プライバシーポリシー</a></li>
+        <li><a href="#" class="link-underline">特定商取引法に基づく表記</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header background on scroll
+  (function () {
+    var header = document.getElementById('siteHeader');
+    function onScroll() {
+      if (window.scrollY > 24) {
+        header.style.background = 'rgba(246,243,236,0.92)';
+        header.style.backdropFilter = 'blur(8px)';
+        header.style.boxShadow = '0 1px 0 rgba(74,93,73,0.12)';
+      } else {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+        header.style.boxShadow = 'none';
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // mobile menu
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var menu = document.getElementById('mobileMenu');
+    var bars = btn.querySelectorAll('[data-bar]');
+    var open = false;
+    function setMenu(state) {
+      open = state;
+      menu.style.transform = open ? 'translateX(0)' : 'translateX(100%)';
+      menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      document.body.style.overflow = open ? 'hidden' : '';
+      bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+      bars[1].style.opacity = open ? '0' : '1';
+      bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+    }
+    btn.addEventListener('click', function () { setMenu(!open); });
+    menu.querySelectorAll('.mm-link').forEach(function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && open) setMenu(false);
+    });
+  })();
+
+  // reveal on scroll
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>

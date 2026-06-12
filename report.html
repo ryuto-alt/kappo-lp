@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>「高級割烹のLP」デザイン納品書 — 漆黒弁柄 / 2026-06-12</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cormorant:wght@300;400;500&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sumi: '#14110F',
+          tan: '#211C18',
+          tint: '#A89A8B',
+          'tint-muted': '#8C7F72',
+          bengara: '#9E3B2E',
+          'bengara-text': '#C75A4A',
+          kin: '#B6925C',
+          kinari: '#E8DECF',
+          'btn-bengara': '#B04434',
+          note: '#9A8C7D',
+          'map-bg': '#1B1714',
+        },
+        fontFamily: {
+          display: ['"Zen Old Mincho"', 'serif'],
+          body: ['"Zen Kaku Gothic New"', 'sans-serif'],
+          latin: ['"EB Garamond"', 'serif'],
+          num: ['"Cormorant"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    --hairline: rgba(182, 146, 92, 0.28);
+    --hairline-soft: rgba(182, 146, 92, 0.12);
+    --divider: rgba(168, 154, 139, 0.12);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #14110F;
+    color: #E8DECF;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 300;
+    line-height: 1.72;
+    letter-spacing: 0.02em;
+    font-feature-settings: "palt" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* 没入シアターの地：墨地に弁柄のかすかなグロー */
+  .stage-bg {
+    background:
+      radial-gradient(1100px 540px at 78% -8%, rgba(158, 59, 46, 0.16), transparent 60%),
+      radial-gradient(820px 620px at -6% 14%, rgba(182, 146, 92, 0.07), transparent 62%),
+      #14110F;
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .mincho { font-family: "Zen Old Mincho", serif; }
+  .latin { font-family: "EB Garamond", serif; font-style: italic; letter-spacing: 0.04em; }
+  .num { font-family: "Cormorant", serif; font-feature-settings: "tnum" 1; }
+  .hairline { border-color: var(--hairline); }
+  .panel {
+    background: #211C18;
+    border: 1px solid var(--hairline-soft);
+    border-radius: 2px;
+  }
+  .eyebrow {
+    font-family: "EB Garamond", serif; font-style: italic;
+    letter-spacing: 0.18em; color: #B6925C; font-size: 0.78rem;
+    text-transform: uppercase;
+  }
+  .kin-rule {
+    height: 1px; width: 64px;
+    background: linear-gradient(90deg, #B6925C, rgba(182,146,92,0));
+  }
+  .lede { line-height: 1.78; color: #E8DECF; }
+  .body-tint { color: #A89A8B; line-height: 1.78; }
+  table.score th, table.score td { border-color: var(--divider); }
+  .badge-adopt {
+    background: #B04434; color: #F4EEE2;
+    letter-spacing: 0.14em; font-size: 0.68rem;
+    padding: 3px 12px; border-radius: 1px;
+    font-family: "Zen Old Mincho", serif; font-weight: 500;
+  }
+  .frame-proto {
+    border: 1px solid var(--hairline);
+    border-radius: 2px; background: #14110F;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .frame-proto.adopted { border-color: rgba(176, 68, 52, 0.6); }
+  .sev {
+    font-family: "EB Garamond", serif; font-style: italic;
+    letter-spacing: 0.08em; font-size: 0.72rem;
+    padding: 2px 9px; border-radius: 1px; white-space: nowrap;
+  }
+  .sev-critical { background: rgba(176,68,52,0.16); color: #C75A4A; border: 1px solid rgba(199,90,74,0.4); }
+  .sev-major { background: rgba(182,146,92,0.13); color: #B6925C; border: 1px solid rgba(182,146,92,0.35); }
+  .vline { writing-mode: vertical-rl; letter-spacing: 0.30em; }
+  a.dl { color: #E8DECF; border-bottom: 1px solid rgba(182,146,92,0.4); transition: 200ms; }
+  a.dl:hover { color: #B6925C; border-color: #B6925C; }
+  .note { color: #9A8C7D; }
+  .swatch { width: 26px; height: 26px; border-radius: 2px; border: 1px solid rgba(182,146,92,0.25); }
+  .fix-arrow { color: #B6925C; }
+  section { position: relative; z-index: 1; }
+</style>
+</head>
+<body class="stage-bg">
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ ヘッダ ============ -->
+<header class="relative z-10 border-b hairline">
+  <div class="max-w-[1180px] mx-auto px-6 md:px-10 py-10 md:py-16">
+    <div class="flex items-center justify-between gap-6">
+      <p class="eyebrow">Design Delivery — Kappo Landing Page</p>
+      <p class="latin text-tint text-sm">2026.06.12</p>
+    </div>
+    <div class="kin-rule mt-6 mb-8"></div>
+    <h1 class="mincho text-kinari text-4xl md:text-6xl font-medium leading-[1.18] tracking-wide">
+      「高級割烹のLP」<br class="md:hidden" />デザイン納品書
+    </h1>
+    <p class="latin text-kin mt-6 text-lg">漆黒弁柄 — Dark Immersive Theater</p>
+    <p class="body-tint mt-4 max-w-2xl text-[0.95rem]">
+      濡羽墨の闇に弁柄の灯がにじむ、没入のシアター。本書は割烹のランディングページ一式の制作経緯・審査・磨き込み・納品物をまとめた成果報告です。
+    </p>
+  </div>
+</header>
+
+<main class="max-w-[1180px] mx-auto px-6 md:px-10">
+
+  <!-- ============ 1. 要件サマリ ============ -->
+  <section class="py-16 md:py-24 border-b hairline">
+    <p class="eyebrow">01 — Brief</p>
+    <h2 class="mincho text-kinari text-2xl md:text-3xl font-medium mt-4 mb-10">案件: 高級割烹のランディングページ</h2>
+    <div class="grid md:grid-cols-2 gap-px bg-[var(--hairline-soft)] border hairline rounded-sm overflow-hidden">
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">業態</p>
+        <p class="lede mt-3 text-[0.95rem]">高級レストラン／割烹。日本料理・コース中心、ディナー主体で客単価高め。</p>
+      </div>
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">ターゲット</p>
+        <p class="lede mt-3 text-[0.95rem]">記念日・接待・会食でハレの日の店を探す 30〜60代。質と静謐な空間を重視する層。</p>
+      </div>
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">目的（主CTA）</p>
+        <p class="lede mt-3 text-[0.95rem]">来店を促す。営業時間・アクセス・地図を見やすく示し『行ってみたい』と思わせて足を運ばせる。予約は副次的な導線として用意。</p>
+      </div>
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">トンマナ</p>
+        <p class="lede mt-3 text-[0.95rem]">上品・ラグジュアリー。余白を贅沢に取り、静謐で落ち着いた高級感。和の格式と信頼感。</p>
+      </div>
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">ブランドカラー</p>
+        <p class="lede mt-3 text-[0.95rem]">指定なし（おまかせ）。和の高級感に合う配色をアートディレクションで提案。墨黒・生成り・金／銅、深い藍・漆・苔色など。安易な赤一色は避け、上質なティント設計で。</p>
+      </div>
+      <div class="panel border-0 p-7">
+        <p class="eyebrow">コピー言語 / 想定セクション</p>
+        <p class="lede mt-3 text-[0.95rem]">日本語（和文組版に配慮。palt・行間・行長を丁寧に）。ヒーロー（料理または店構え）を起点としたセクション構成。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. 審査結果 ============ -->
+  <section class="py-16 md:py-24 border-b hairline">
+    <p class="eyebrow">02 — Adjudication</p>
+    <h2 class="mincho text-kinari text-2xl md:text-3xl font-medium mt-4 mb-3">審査結果と勝者の選定</h2>
+    <p class="body-tint max-w-2xl text-[0.95rem] mb-10">
+      3つのアートディレクションを <span class="text-kinari">visual / ux / a11y</span> の3レンズで審査。僅差ながら、没入のシアター性とCTAの強度で〈漆黒弁柄〉が総合首位となりました。
+    </p>
+
+    <div class="overflow-x-auto">
+      <table class="score w-full text-left border-collapse">
+        <thead>
+          <tr class="text-tint text-xs latin" style="border-bottom:1px solid var(--hairline);">
+            <th class="py-3 pr-4 font-normal">案</th>
+            <th class="py-3 px-4 font-normal">コンセプト</th>
+            <th class="py-3 px-4 font-normal text-right">visual</th>
+            <th class="py-3 px-4 font-normal text-right">ux</th>
+            <th class="py-3 px-4 font-normal text-right">a11y</th>
+            <th class="py-3 pl-4 font-normal text-right">総合</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--divider);" class="bg-[rgba(176,68,52,0.06)]">
+            <td class="py-5 pr-4 align-top">
+              <span class="badge-adopt">採用</span>
+              <p class="latin text-kin mt-2">b</p>
+            </td>
+            <td class="py-5 px-4 align-top">
+              <p class="mincho text-kinari text-lg">漆黒弁柄</p>
+              <p class="note text-sm mt-1">ダーク没入シアター</p>
+            </td>
+            <td class="py-5 px-4 text-right num text-kinari text-2xl align-top">81</td>
+            <td class="py-5 px-4 text-right num text-kinari text-2xl align-top">78</td>
+            <td class="py-5 px-4 text-right num text-kinari text-2xl align-top">74</td>
+            <td class="py-5 pl-4 text-right num text-kin text-3xl align-top">77.7</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td class="py-5 pr-4 align-top"><p class="latin text-tint">a</p></td>
+            <td class="py-5 px-4 align-top">
+              <p class="mincho text-kinari text-lg">生成り墨</p>
+              <p class="note text-sm mt-1">静謐エディトリアル</p>
+            </td>
+            <td class="py-5 px-4 text-right num text-kinari text-2xl align-top">82</td>
+            <td class="py-5 px-4 text-right num text-tint text-2xl align-top">74</td>
+            <td class="py-5 px-4 text-right num text-tint text-2xl align-top">74</td>
+            <td class="py-5 pl-4 text-right num text-tint text-3xl align-top">76.7</td>
+          </tr>
+          <tr>
+            <td class="py-5 pr-4 align-top"><p class="latin text-tint">c</p></td>
+            <td class="py-5 px-4 align-top">
+              <p class="mincho text-kinari text-lg">苔白磁</p>
+              <p class="note text-sm mt-1">余白と季節の静物</p>
+            </td>
+            <td class="py-5 px-4 text-right num text-tint text-2xl align-top">79</td>
+            <td class="py-5 px-4 text-right num text-tint text-2xl align-top">76</td>
+            <td class="py-5 px-4 text-right num text-tint text-2xl align-top">72</td>
+            <td class="py-5 pl-4 text-right num text-tint text-3xl align-top">75.7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel mt-12 p-8 md:p-10 relative overflow-hidden">
+      <div class="absolute right-0 top-0 bottom-0 w-px" style="background:linear-gradient(180deg,#B6925C,transparent);"></div>
+      <p class="eyebrow">Why the winner</p>
+      <p class="mincho text-kinari text-xl mt-3 mb-4">勝者の選定理由 — 〈漆黒弁柄〉</p>
+      <p class="lede text-[0.97rem] max-w-3xl">
+        visual 81 を筆頭に、没入ダークの闇が料理と店構えを舞台のように際立たせ、ハレの日の特別感を最も強く喚起しました。弁柄の灯と燻し金のヘアラインが格式と緊張感を両立し、主CTA「行ってみたい」への視線誘導も明快。a11y は3案中で要改善点を最も多く抱えていましたが、その指摘はいずれも色トークンの調整で解消可能と判断し、総合77.7点で採用。続く磨き込みフェーズで指摘に対応し、
+        <span class="num text-kin text-xl mx-1">93</span>点まで引き上げました。
+      </p>
+      <div class="flex items-baseline gap-4 mt-8 pt-6 border-t" style="border-color:var(--divider);">
+        <p class="note text-sm latin">Final score after polish</p>
+        <p class="num text-kin text-5xl leading-none">93</p>
+        <p class="note text-sm">点</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. ギャラリー ============ -->
+  <section class="py-16 md:py-24 border-b hairline">
+    <p class="eyebrow">03 — Gallery</p>
+    <h2 class="mincho text-kinari text-2xl md:text-3xl font-medium mt-4 mb-3">3案ギャラリー</h2>
+    <p class="body-tint max-w-2xl text-[0.95rem] mb-12">
+      各案のプロトタイプを原寸で。スクロール可。固有の意匠を添えています。
+    </p>
+
+    <div class="space-y-16">
+
+      <!-- proto-b 採用 -->
+      <article>
+        <div class="flex flex-wrap items-baseline gap-4 mb-4">
+          <span class="badge-adopt">採用</span>
+          <p class="latin text-kin text-lg">proto-b</p>
+          <h3 class="mincho text-kinari text-xl">漆黒弁柄 — ダーク没入シアター</h3>
+        </div>
+        <p class="body-tint text-[0.93rem] max-w-3xl mb-2">
+          <span class="text-kinari">コンセプト：</span>濡羽墨（#14110F）を地に、弁柄の朱と燻し金のヘアラインで料理を舞台照明のように浮かび上がらせる。スクロールで景が立ち現れる劇場的な構成。
+        </p>
+        <p class="note text-[0.88rem] max-w-3xl mb-5">
+          固有の意匠：弁柄グローのスポットライト、矩形（角丸0px）の凛としたCTA、縦書きラベル、Cormorantの等幅数字による価格表示、グレイン質感のオーバーレイ。
+        </p>
+        <div class="frame-proto adopted overflow-hidden">
+          <iframe src="proto-b.html" title="proto-b 漆黒弁柄" loading="lazy" class="w-full block" style="height:600px;border:0;"></iframe>
+        </div>
+      </article>
+
+      <!-- proto-a -->
+      <article>
+        <div class="flex flex-wrap items-baseline gap-4 mb-4">
+          <p class="latin text-tint text-lg">proto-a</p>
+          <h3 class="mincho text-kinari text-xl">生成り墨 — 静謐エディトリアル</h3>
+        </div>
+        <p class="body-tint text-[0.93rem] max-w-3xl mb-2">
+          <span class="text-kinari">コンセプト：</span>生成りの明地に墨の文字を落とした、雑誌のような静謐エディトリアル。余白と行長の設計で読ませる和文組版。
+        </p>
+        <p class="note text-[0.88rem] max-w-3xl mb-5">
+          固有の意匠：広い天地余白、明朝の大見出しと細い罫、季節を語る本文リード。visual 82 と3案中最高の誌面美。
+        </p>
+        <div class="frame-proto overflow-hidden">
+          <iframe src="proto-a.html" title="proto-a 生成り墨" loading="lazy" class="w-full block" style="height:600px;border:0;"></iframe>
+        </div>
+      </article>
+
+      <!-- proto-c -->
+      <article>
+        <div class="flex flex-wrap items-baseline gap-4 mb-4">
+          <p class="latin text-tint text-lg">proto-c</p>
+          <h3 class="mincho text-kinari text-xl">苔白磁 — 余白と季節の静物</h3>
+        </div>
+        <p class="body-tint text-[0.93rem] max-w-3xl mb-2">
+          <span class="text-kinari">コンセプト：</span>白磁の地に苔の緑をひとさじ。季節の静物を主役に据えた、清潔で穏やかなトーン。
+        </p>
+        <p class="note text-[0.88rem] max-w-3xl mb-5">
+          固有の意匠：苔色アクセント、静物のような余白構図、柔らかな階調。落ち着きと親しみやすさを両立。
+        </p>
+        <div class="frame-proto overflow-hidden">
+          <iframe src="proto-c.html" title="proto-c 苔白磁" loading="lazy" class="w-full block" style="height:600px;border:0;"></iframe>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ 4. 磨き込み ============ -->
+  <section class="py-16 md:py-24 border-b hairline">
+    <p class="eyebrow">04 — Refinement</p>
+    <h2 class="mincho text-kinari text-2xl md:text-3xl font-medium mt-4 mb-3">磨き込みで対応した主な指摘</h2>
+    <p class="body-tint max-w-2xl text-[0.95rem] mb-12">
+      審査で挙がった指摘を critical / major で整理し、それぞれ修正を反映。とりわけ予約導線の実体化と、没入ダークで犠牲になりがちな可読性（コントラスト）を最優先で是正しました。
+    </p>
+
+    <div class="space-y-6">
+
+      <!-- critical 1 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-critical mt-1">critical</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              最終CTAブロックとstickyバーの主CTA「ご予約」が、実体のある予約フォームではなく <span class="num text-kin">#reserve</span> アンカー（説明文と電話・メールの繰り返し）に着地。コピーは「フォームより承ります」と謳うがフォームが存在せず、期待と現実が食い違う（Nielsen #2 一致／#1 可視性）。客単価2万円超・完全予約制で電話受付が <span class="num">11:00–20:00</span> に限定され、時間外の来訪者は予約手段を失う致命的離脱。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>#reserve 内に実体ある予約フォーム（来店日・時間帯 select、人数 stepper、コース選択ラジオ、用途／アレルギー textarea、氏名・電話・メール）を設置、または外部予約（OMAKASE／TableCheck 等）の実URLを btn-bengara に割当。stickyバーの href も同フォーム／外部URLへ。未実装の間は文言を「お電話・メールにて承ります」に修正して期待を一致。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- critical 2 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-critical mt-1">critical</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              tint <span class="num">#8C7F72</span> を本文・説明文の常用色に使用していたが、墨地で <span class="num">4.83:1</span>、パネル地で <span class="num">4.34:1</span> と AA <span class="num">4.5:1</span> を割る。コース献立の品名、コンセプト2段落目、各カード説明文、アクセス補足などサイト全体の「読ませる」テキストの大半がこの色。tan 地では明確に AA 不適合で、小サイズ（<span class="num">0.84〜0.92rem</span>）が重なり実害が大きい。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>tint をボディ用に明度を上げ <span class="num">--color-tint #A89A8B</span>（tan 約5.6:1／sumi 約6.3:1）。装飾ラベル専用に従来の <span class="num">#8C7F72</span> を <span class="num">--color-tint-muted</span> として分離。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- critical 3 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-critical mt-1">critical</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              半透明 tint の派生色が判読不能レベル。縦書き「昼／夜」ラベル <span class="num">text-tint/40</span> は tan 地で <span class="num">1.77:1</span>。コピーライト <span class="num">text-tint/60</span> は <span class="num">2.50:1</span>、各種注記 <span class="num">/70・/80</span> は <span class="num">2.97〜3.26:1</span>。料金注記・キャンセル規定など実務上重要な情報が読みにくい。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>注記・コピーライトの最低を AA 4.5:1 に。/70・/80 は不透明な明色（<span class="num">#9A8C7D</span> 以上、tan 約4.6:1）へ置換。縦書き「昼／夜」は不透明 <span class="num">#8C7F72</span>（約4.3:1）か kin/50 程度へ。装飾と明示する場合は aria-hidden + hidden md:inline でSR除外を宣言。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- major 1 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-major mt-1">major</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              本文 line-height が body 全体で <span class="num">1.8</span>、各 leading で <span class="num">1.9–1.95</span>。weight 300 の生成り細字に対し 1.95 は緩みすぎで、明朝見出しの密度との落差からシアターの緊張感を削ぐ。特に concept の <span class="num">1.16rem</span> 本文。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>長文ブロックの leading を <span class="num">1.78</span> に統一、body の line-height を <span class="num">1.8 → 1.72</span>。短文リストは 1.7 で据え置き可。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- major 2 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-major mt-1">major</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              本文ウェイト 300 + tint <span class="num">#8C7F72</span> の組み合わせがコントラスト不足。sumi 地で約 <span class="num">4.1:1</span>、<span class="num">0.84–0.92rem</span> の補足テキスト（品名・注記・access 小字）で AA を下回る。没入ダークの代償として可読性が犠牲に。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>補足テキスト用 tint を <span class="num">#9D9082</span>（約5.2:1）へ、または font-weight を 300→400。料理品名は <span class="num">#A89A8B</span> に。最重要本文は <span class="num">#E8DECF</span> を維持。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- major 3 -->
+      <div class="panel p-7 md:p-8">
+        <div class="flex items-start gap-4 flex-wrap">
+          <span class="sev sev-major mt-1">major</span>
+          <div class="flex-1 min-w-[260px]">
+            <p class="lede text-[0.97rem]">
+              数字書体 Cormorant（weight 300）が価格 <span class="num">¥8,800 / ¥22,000</span> の <span class="num">2.6rem</span> で細く頼りない。最重要コンバージョン要素の価格が明朝見出しに視覚的重量で負け、視覚階層の主役になれていない。Webフォント未読込時の serif フォールバックも数字幅が不揃いになるリスク。
+            </p>
+            <p class="body-tint text-[0.92rem] mt-3"><span class="fix-arrow">→ 修正：</span>.num を weight 300→400、letter-spacing 0.02em→0.01em、<span class="num">font-feature-settings: 'tnum' 1</span> で等幅数字化。¥記号と数値の間の全角スペースは <span class="num">margin-right: 0.12em</span> の span 制御に。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 5. 納品物一覧 ============ -->
+  <section class="py-16 md:py-24 border-b hairline">
+    <p class="eyebrow">05 — Deliverables</p>
+    <h2 class="mincho text-kinari text-2xl md:text-3xl font-medium mt-4 mb-10">納品物一覧</h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <div>
+        <p class="eyebrow mb-4">Prototypes & Design Spec</p>
+        <ul class="space-y-3 text-[0.95rem]">
+          <li>・<a class="dl" href="proto-a.html">proto-a.html</a> <span class="note">— 生成り墨</span></li>
+          <li>・<a class="dl" href="proto-b.html">proto-b.html</a> <span class="note">— 漆黒弁柄（採用）</span></li>
+          <li>・<a class="dl" href="proto-c.html">proto-c.html</a> <span class="note">— 苔白磁</span></li>
+          <li>・<a class="dl" href="design-system.md">design-system.md</a> <span class="note">— デザインシステム定義</span></li>
+          <li>・<a class="dl" href="tokens.css">tokens.css</a> <span class="note">— デザイントークン</span></li>
+          <li>・<a class="dl" href="tailwind.preset.js">tailwind.preset.js</a> <span class="note">— Tailwind プリセット</span></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="eyebrow mb-4">components/ — React / TSX</p>
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-[0.95rem]">
+          <li>・<a class="dl" href="components/Button.tsx">Button.tsx</a></li>
+          <li>・<a class="dl" href="components/Input.tsx">Input.tsx</a></li>
+          <li>・<a class="dl" href="components/Select.tsx">Select.tsx</a></li>
+          <li>・<a class="dl" href="components/Badge.tsx">Badge.tsx</a></li>
+          <li>・<a class="dl" href="components/Card.tsx">Card.tsx</a></li>
+          <li>・<a class="dl" href="components/Tabs.tsx">Tabs.tsx</a></li>
+          <li>・<a class="dl" href="components/Header.tsx">Header.tsx</a></li>
+          <li>・<a class="dl" href="components/Hero.tsx">Hero.tsx</a></li>
+          <li>・<a class="dl" href="components/FeatureSection.tsx">FeatureSection.tsx</a></li>
+          <li>・<a class="dl" href="components/CTASection.tsx">CTASection.tsx</a></li>
+          <li>・<a class="dl" href="components/Footer.tsx">Footer.tsx</a></li>
+          <li>・<a class="dl" href="components/ReserveBar.tsx">ReserveBar.tsx</a></li>
+          <li>・<a class="dl" href="components/LandingPage.tsx">LandingPage.tsx</a></li>
+          <li>・<a class="dl" href="components/primitives.tsx">primitives.tsx</a></li>
+          <li>・<a class="dl" href="components/index.ts">index.ts</a> <span class="note">（barrel）</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- パレット添え -->
+    <div class="panel mt-12 p-7 md:p-8">
+      <p class="eyebrow mb-5">Palette — 漆黒弁柄</p>
+      <div class="flex flex-wrap gap-5">
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#14110F"></span><span class="note text-xs num">#14110F 濡羽墨</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#211C18"></span><span class="note text-xs num">#211C18 炭墨</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#E8DECF"></span><span class="note text-xs num">#E8DECF 生成り</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#A89A8B"></span><span class="note text-xs num">#A89A8B ティント</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#B6925C"></span><span class="note text-xs num">#B6925C 燻し金</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#9E3B2E"></span><span class="note text-xs num">#9E3B2E 弁柄</span></div>
+        <div class="flex items-center gap-2"><span class="swatch" style="background:#C75A4A"></span><span class="note text-xs num">#C75A4A 朱</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ フッタ ============ -->
+<footer class="relative z-10 border-t hairline">
+  <div class="max-w-[1180px] mx-auto px-6 md:px-10 py-14">
+    <div class="kin-rule mb-8"></div>
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div>
+        <p class="mincho text-kinari text-lg">割烹 沙羅雙樹 — Landing Page</p>
+        <p class="note text-[0.9rem] mt-2">
+          好みのフィードバックは <span class="num text-kin">/design like｜dislike</span> で台帳に学習されます。
+        </p>
+      </div>
+      <p class="latin text-tint text-sm">漆黒弁柄 — Dark Immersive Theater ・ 2026.06.12</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
